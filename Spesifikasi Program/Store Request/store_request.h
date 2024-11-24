@@ -1,1 +1,0 @@
-void QueuePlaylist(ArrayDin * AP, QueueLagu * QL, CurrentSong * CS, RiwayatLagu * RL);
