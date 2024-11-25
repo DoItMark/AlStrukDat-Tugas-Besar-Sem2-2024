@@ -3,7 +3,7 @@
 #include "boolean"
 
 void help(char status){
-    if (status = "main_menu"){
+    if (status = "welcome_menu"){
         printf("=====[ Welcome Menu Help PURRMART ]=====\n");
         printf("1. START -> Untuk masuk sesi baru\n");
         printf("2. LOAD -> Untuk memulai sesi berdasarkan file konfigurasi\n");
