@@ -1,10 +1,7 @@
 #ifndef __ARRAY_DINAMIK__
 #define __ARRAY_DINAMIK__
 
-// Boolean
-#define boolean unsigned char
-#define true 1
-#define false 0
+#include "../../boolean.h"
 
 #define InitialSize 10
 
