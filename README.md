@@ -9,13 +9,22 @@ PURRMART adalah sebuah aplikasi yang dapat mensimulasikan aktivitas beli barang 
 - Menampilkan barang yang sudah dibeli <br />
 - Membuat dan menghapus wishlist <br />
 - Bekerja untuk menghasilkan uang <br />
-  <br />
-  <br />
-Cara menjalankan program: <br />
+<br />
+<br />
+<br />  
+Cara menjalankan program: <br /> 
+<br />
 pada direktori src: <br />
-gcc -o program console.c ADT/Mesin_Kata/mesinkata.c ADT/Mesin_Karakter/mesinkarakter.c ADT/List_Statis/ListofUser.c ADT/List_Dinamis/ListofBarang.c ADT/Queue/queueBarang.c ADT/User/user.c <br />
-./program <br />
-
+```
+gcc -o program console.c ADT/Mesin_Kata/mesinkata.c ADT/Mesin_Karakter/mesinkarakter.c ADT/List_Statis/ListofUser.c ADT/List_Dinamis/ListofBarang.c ADT/Queue/queueBarang.c ADT/User/user.c
+```
+<br />
+```
+./program
+```
+<br />
+<br />
+<br />
 Kelas 03, Kelompok 07 <br />
 18223130	M Rabbani K A <br />
 18223108	Leticia Aldina Trulykinanti <br />
