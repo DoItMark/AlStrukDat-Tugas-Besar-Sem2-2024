@@ -1,10 +1,21 @@
 #ifndef LOAD_H
 #define LOAD_H
+#include "mesinkarakter.h"
+#include "mesinkata.h"
+#include "mesinkalimat.h"
 
-void concat(char *dest, const char *src1, const char *src2);
+typedef struct {
+    char NamaBarang[50];
+    int HargaBarang;
+} Barang;
 
-void loadFile(const char *filename);
+//menyimpan data pengguna
+typedef struct {
+    char Nama[50];
+    char Password[50];
+    int Uang;
+} Pengguna;
 
-int startsWith(const char *str, const char *prefix);
+void LOAD(const char *filename);
 
 #endif 
