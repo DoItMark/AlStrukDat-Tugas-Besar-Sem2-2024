@@ -7,8 +7,9 @@
 #include "../../boolean.h"
 #include <stdio.h>
 
-#define MARK '.'
+#define MARK '\n'
 #define MARK_newline '\n'
+
 /* State Mesin */
 extern char currentChar;
 extern boolean EOP;
@@ -35,6 +36,11 @@ char GetCC();
 boolean IsEOP();
 /* Mengirimkan true jika currentChar = MARK */
 
+void closePita();
+
 void readFileChar(FILE * f);
 
+boolean IsEOF();
+
+void readString(char *str, int maxLength);
 #endif

@@ -1,9 +1,7 @@
+#include "console.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "boolean.h"
-#include "console.h"
-#include "string.h"
 
 void WORK() {
     const char *pekerjaan[] = {
@@ -15,30 +13,40 @@ void WORK() {
     };
     int pendapatan[] = {100, 4200, 7000, 10000, 997};
     int durasi[] = {14, 21, 30, 22, 15};
-    int num_works = sizeof(pendapatan) / sizeof(pendapatan[0]);
+    int num_works = 5;
 
     printf("Daftar pekerjaan:\n");
     for (int i = 0; i < num_works; i++) {
         printf("%d. %s (pendapatan=%d, durasi=%ds)\n", i + 1, pekerjaan[i], pendapatan[i], durasi[i]);
     }
 
-    int choice;
-    printf("Masukkan pekerjaan yang dipilih (nomor): ");
-    scanf("%d", &choice);
+    char pilih[100];
+    int choice = -1;
 
-    if (choice < 1 || choice > num_works) {
-        printf("Pilihan tidak valid. Silakan coba lagi.\n");
-        return;
+    while (choice == -1) {
+        printf("Masukkan nama pekerjaan yang dipilih: ");
+        readString(pilih, sizeof(pilih));
+
+        for (int i = 0; i < num_works; i++) {
+            if (stringComp(pilih, pekerjaan[i])) {
+                choice = i;
+                break;
+            }
+        }
+
+        if (choice == -1) {
+            printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        }
     }
 
-    printf("Anda sedang bekerja sebagai %s... harap tunggu.\n", pekerjaan[choice - 1]);
+    printf("Anda sedang bekerja sebagai %s... harap tunggu.\n", pekerjaan[choice]);
 
     time_t start_time = time(NULL);
-    while (time(NULL) - start_time < durasi[choice - 1]) {
+    while (time(NULL) - start_time < durasi[choice]) {
         // Menunggu hingga durasi pekerjaan selesai
     }
 
-    printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pendapatan[choice - 1]);
+    printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pendapatan[choice]);
 }
 
 void WORDL3() {
@@ -49,13 +57,13 @@ void WORDL3() {
         "RUSDI", "JOMOK", "HERTA", "IKUYO", "MEKAR"
     };
     srand(time(NULL));
-    const char *jawaban = kata_kunci[rand() % 10]; // Pilih jawaban secara acak
+    const char *jawaban = kata_kunci[rand() % 10];
 
     char tebakan[PANJANG_KATA + 1];
-    char tampilan[CHANCE][PANJANG_KATA * 3 + 1]; // Tampilan hasil tebakan
+    char tampilan[CHANCE][PANJANG_KATA * 3 + 1];
     int count = 0;
 
-    // Inisialisasi tampilan dengan '_'
+    // Inisialisasi tampilan
     for (int i = 0; i < CHANCE; i++) {
         for (int j = 0; j < PANJANG_KATA; j++) {
             tampilan[i][j * 3] = '_';
@@ -74,23 +82,23 @@ void WORDL3() {
     printf("\n");
 
     while (count < CHANCE) {
-        printf("Masukan kata tebakan Anda: ");
-        scanf("%s", tebakan);
+        printf("Masukan kata tebakan Anda (%d huruf): ", PANJANG_KATA);
+        readString(tebakan, PANJANG_KATA + 1);
 
         // Validasi panjang kata
-        if (hitung_panjang(tebakan) != PANJANG_KATA) {
-            printf("Kata harus berisi %d huruf!\n\n", PANJANG_KATA);
+        if (stringLength(tebakan) != PANJANG_KATA) {
+            printf("Kata harus berisi tepat %d huruf!\n\n", PANJANG_KATA);
             continue;
         }
 
-        // Proses tebakan dan buat tampilan
+        // Proses tebakan dan update tampilan
         for (int i = 0; i < PANJANG_KATA; i++) {
-            tampilan[count][i * 3] = tebakan[i]; // Huruf tebakan
+            tampilan[count][i * 3] = tebakan[i];
             if (tebakan[i] == jawaban[i]) {
-                tampilan[count][i * 3 + 1] = ' '; // Huruf benar di posisi benar
+                tampilan[count][i * 3 + 1] = ' '; // Benar posisi
                 tampilan[count][i * 3 + 2] = ' ';
-            } else if (cari_karakter(jawaban, tebakan[i])) {
-                tampilan[count][i * 3 + 1] = '*'; // Huruf benar tapi posisi salah
+            } else if (stringSearch(jawaban, tebakan[i])) {
+                tampilan[count][i * 3 + 1] = '*'; // Benar huruf, salah posisi
                 tampilan[count][i * 3 + 2] = ' ';
             } else {
                 tampilan[count][i * 3 + 1] = '%'; // Huruf tidak ada
@@ -98,8 +106,8 @@ void WORDL3() {
             }
         }
 
-        // Cetak hasil tebakan
-        printf("Hasil:\n");
+        // Tampilkan hasil
+        printf("\nHasil:\n");
         for (int i = 0; i <= count; i++) {
             printf("%s\n", tampilan[i]);
         }
@@ -108,8 +116,8 @@ void WORDL3() {
         }
         printf("\n");
 
-        // Cek apakah tebakan benar
-        if (bandingkan_string(tebakan, jawaban)) {
+        // Cek kemenangan
+        if (stringComp(tebakan, jawaban)) {
             printf("\nSelamat, Anda menang!\n");
             printf("+1500 rupiah telah ditambahkan ke akun Anda.\n");
             return;

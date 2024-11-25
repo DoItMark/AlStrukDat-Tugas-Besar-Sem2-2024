@@ -1,18 +1,14 @@
-/* File: mesinkata.h */
-/* Definisi Mesin Kata: Model Akuisisi Versi I */
-
 #ifndef __MESINKATA_H__
 #define __MESINKATA_H__
 
-#include "boolean.h"
-#include "../Mesin Karakter/mesinkarakter.h"
+#include "../../boolean.h"
+#include "../Mesin_Karakter/mesinkarakter.h"
 
 #define NMax 50
 #define BLANK ' '
 
-typedef struct
-{
-   char TabWord[NMax]; /* container penyimpan kata, indeks yang dipakai [0..NMax-1] */
+typedef struct {
+   char TabWord[NMax];
    int Length;
 } Word;
 
@@ -36,7 +32,7 @@ void ADVWORD();
    F.S. : currentWord adalah kata terakhir yang sudah diakuisisi,
           currentChar adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika currentChar = MARK, EndWord = true.
-   Proses : Akuisisi kata menggunakan procedure SalinWord */
+   Proses : Akuisisi kata menggunakan procedure CopyWord */
 
 void CopyWord();
 /* Mengakuisisi kata, menyimpan dalam currentWord
@@ -46,6 +42,22 @@ void CopyWord();
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
+void StartWordFile(FILE *input);
+/* Memulai mesin kata dengan input dari file */
+
 boolean isEndWord();
+/* Mengecek apakah sudah mencapai akhir kata */
+
+int stringLength(const char *str);
+/* Menghitung panjang string */
+
+void stringCopy(char *dest, const char *src);
+/* Menyalin string dari src ke dest */
+
+boolean stringComp(const char *str1, const char *str2);
+/* Membandingkan dua string */
+
+boolean stringSearch(const char *str, char ch);
+/* Mencari karakter dalam string */
 
 #endif
