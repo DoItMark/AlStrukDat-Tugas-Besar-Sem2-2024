@@ -1,8 +1,8 @@
 Tugas Besar Algoritma Struktur Data
 Semester 2 tahun 2024_2025
 
-Deskripsi singkat program: \n
-PURRMART adalah sebuah aplikasi yang dapat mensimulasikan aktivitas beli barang pada e-commerce. PURRMART memiliki beberapa fitur utama, yaitu: \n
+Deskripsi singkat program: <br />
+PURRMART adalah sebuah aplikasi yang dapat mensimulasikan aktivitas beli barang pada e-commerce. PURRMART memiliki beberapa fitur utama, yaitu: <br />
 - Menampilkan barang toko \n
 - Meminta dan menyuplai barang baru ke toko \n
 - Menyimpan dan membeli barang dalam keranjang \n
