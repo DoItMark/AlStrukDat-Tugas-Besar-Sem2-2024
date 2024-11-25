@@ -6,12 +6,13 @@
 
 #include "../../boolean.h"
 #include "barang.h"
+#include "string.h"
 
 #define IDX_UNDEF -1
 #define CAPACITY 100
 
 /* Definisi elemen dan address */
-typedef Barang ElType;
+typedef char ElType;
 typedef struct {
 	ElType buffer[CAPACITY]; 
 	int idxHead;
@@ -23,8 +24,8 @@ typedef struct {
 /* Jika q adalah Queue, maka akses elemen : */
 #define IDX_HEAD(q) (q).idxHead
 #define IDX_TAIL(q) (q).idxTail
-#define     HEAD(q) (q).buffer[(q).idxHead].name
-#define     TAIL(q) (q).buffer[(q).idxTail].name
+#define     HEAD(q) (q).buffer[(q).idxHead]
+#define     TAIL(q) (q).buffer[(q).idxTail]
 
 /* *** Kreator *** */
 void CreateQueue(Queue *q);
@@ -65,6 +66,6 @@ void displayQueue(Queue q);
 /* F.S. Jika q tidak kosong: [e1,e2,...,en] */
 /* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
 /* Jika Queue kosong : menulis [] */
-
+boolean SearchQueue(Queue q, char name);
 
 #endif

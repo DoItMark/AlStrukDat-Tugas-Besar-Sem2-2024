@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "QueueBarang.h"
 #include "boolean.h"
+#include "string.h"
 
 /* *** Kreator *** */
 void CreateQueue(Queue *q)
@@ -59,7 +60,7 @@ void dequeue(Queue *q, char *InName)
 /* F.S. val = nilai elemen HEAD pd I.S., IDX_HEAD "mundur";
         q mungkin kosong */
 {
-    *InName = (*q).buffer[(*q).idxHead].name;
+    salin_string(*InName,(*q).buffer[(*q).idxHead]);
     
     if ((*q).idxHead == (*q).idxTail) {
         (*q).idxHead = IDX_UNDEF;
@@ -94,4 +95,12 @@ void displayQueue(Queue q)
         }
         printf("]\n");
     }
+    
+}
+
+boolean SearchQueue(Queue q,char name){
+    for (int i; i = IDX_HEAD(q);i < IDX_TAIL(q), i++){
+        return banding_string(q.buffer[i],name);
+    }
+    return false;
 }
