@@ -23,7 +23,7 @@ void STARTWORD() {
 
 void ADVWORD() {
     IgnoreBlanks();
-    if (currentChar == MARK) {
+    if (currentChar == MARK || IsEOF()) {
         EndWord = true;
     } else {
         CopyWord();
@@ -33,7 +33,7 @@ void ADVWORD() {
 
 void CopyWord() {
     currentWord.Length = 0;
-    while (currentChar != BLANK && currentChar != MARK) {
+    while (currentChar != BLANK && currentChar != MARK && !IsEOF()) {
         if (currentWord.Length < NMax) {
             currentWord.TabWord[currentWord.Length] = currentChar;
             currentWord.Length++;
@@ -42,7 +42,7 @@ void CopyWord() {
             break;
         }
     }
-    currentWord.TabWord[currentWord.Length] = '\0'; // Null terminate the string
+    currentWord.TabWord[currentWord.Length] = '\0';
 }
 
 void StartWordFile(FILE *input) {
