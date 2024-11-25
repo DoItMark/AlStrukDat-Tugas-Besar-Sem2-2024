@@ -5,11 +5,12 @@
 #define boolean unsigned char
 #define true 1
 #define false 0
+#include "barang.h"
 
 #define InitialSize 10
 
 typedef int IdxType;
-typedef int ElType;
+typedef Barang ElType;
 typedef struct {
     ElType *A;
     int Capacity;

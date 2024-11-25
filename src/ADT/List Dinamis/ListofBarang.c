@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ListofBarang.h"
-#include "Barang.h"
+#include "barang.h"
 
 /**
  * Konstruktor
@@ -139,7 +139,7 @@ void PrintArrayDin(ArrayDin array) {
     } else {
         printf("[");
         for (int i = 0; i < array.Neff; i++) {
-            printf("%d", array.A[i]);
+            printf("%s", array.A[i].name);
             if (i < array.Neff - 1) {
                 printf(", ");
             }
@@ -181,7 +181,7 @@ ArrayDin CopyArrayDin(ArrayDin array) {
  */
 IdxType SearchArrayDin(ArrayDin array, ElType el) {
     for (int i = 0; i < array.Neff; i++) {
-        if (array.A[i] == el) {
+        if (array.A[i].name == el.name) {
             return i;
         }
     }

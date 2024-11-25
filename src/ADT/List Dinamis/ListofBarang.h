@@ -6,6 +6,8 @@
 #define true 1
 #define false 0
 
+#include "barang.h"
+
 #define InitialSize 10
 
 typedef int IdxType;
