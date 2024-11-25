@@ -7,4 +7,4 @@
 #define status char
 
 void RegisterUser (char Newname, char NewPW);
-boolean IsUser (char name);
+boolean IsUser (char name, List Users);

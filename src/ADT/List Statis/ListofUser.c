@@ -2,13 +2,14 @@
 #include "boolean.h"
 #include "ListofUser.h"
 #include "user.h"
+#include "string.h"
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor: create list kosong */
 List MakeList() {
     List L;
     for (int i = 0; i < MaxEl; i++) {
-        L.A[i].name = Mark; // Initialize all elements with Mark
+        salin_string(L.A[i].name,"---"); // Initialize all elements with Mark
     }
     return L;
 }
@@ -18,19 +19,21 @@ List MakeList() {
 /* ********** TEST KOSONG/PENUH ********** */
 /* *** Test list kosong *** */
 boolean IsEmpty(List L){
-    return L.A[0].name == Mark;
+    return banding_string(L.A[0].name,"---");
 }
 /* Mengirimkan true jika list L kosong, mengirimkan false jika tidak */
 
 /* *** Menghasilkan sebuah elemen *** */
 ElType Get(List L, IdxType i){
     ElType Elm;
+    User MarkUser;
+    salin_string(MarkUser.name,"---");
     if (!IsEmpty(L)){
         if(i > InvalidIdx && i < LastIdx(L)){
-            Elm = L.A[i].name;
+            *Elm.name = L.A[i].name;
         }
     }
-    else{return Mark;}
+    else{return MarkUser;}
     return Elm;
 }
 /* Prekondisi : list tidak kosong, i antara FirstIdx(T)..LastIdx(T) */
@@ -40,7 +43,7 @@ ElType Get(List L, IdxType i){
 void Set(List *L, IdxType i, ElType v){
     if (!IsEmpty(*L)){
         if(i > InvalidIdx && i < LastIdx(*L)){
-            if (v != Mark){
+            if (banding_string(v.name != "---")){
                 L->A[i] = v;
             }
             else{printf("value tidak valid");}
@@ -58,7 +61,7 @@ void Set(List *L, IdxType i, ElType v){
 /* *** Banyaknya elemen *** */
 int Length(List L){
     int i = 0;
-    while(L.A[i].name != Mark){
+    while (banding_string(L.A[i].name != "---")){
         i++;
     }
     return i;
@@ -96,9 +99,9 @@ boolean IsIdxEff (List L, IdxType i){
 /* yaitu antara FirstIdx(L)..LastIdx(L) */
 
 /* ********** Operasi-operasi ********** */
-boolean Search(List L, char *X){
+boolean Search(List L, char name){
     for(int i; i = 0; i < Length(L),i++){
-        if (L.A[i].name == *X){
+        if (banding_string(L.A[i].name, name)){
             return true;
         }
     }
@@ -122,11 +125,11 @@ void InsertAt(List *L, ElType X, IdxType i) {
     }
 }
 
-void InsertLast(List *L, char *name, char *password) {
+void InsertLast(List *L, char name, char password) {
     int len = Length(*L);
     if (len < MaxEl) {
-        (*L).A[len].name = *name; // Insert at the end
-        (*L).A[len].password = *password;
+        salin_string((*L).A[len].name,name); // Insert at the end
+        salin_string((*L).A[len].password , password);
 
     }
 }
@@ -141,14 +144,14 @@ void DeleteAt(List *L, IdxType i) {
         for (int j = i; j < len - 1; j++) {
             (*L).A[j] = (*L).A[j + 1]; // Shift elements to the left
         }
-        (*L).A[len - 1] = Mark; // Mark the last element as undefined
+        salin_string((*L).A[len - 1], "---"); // Mark the last element as undefined
     }
 }
 
 void DeleteLast(List *L) {
     int len = Length(*L);
     if (len > 0) {
-        (*L).A[len - 1] = Mark; // Remove the last element
+        salin_string((*L).A[len - 1] , "---"); // Remove the last element
     }
 }
 

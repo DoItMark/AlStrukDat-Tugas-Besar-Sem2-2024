@@ -10,12 +10,13 @@
 
 /* Kamus Umum */
 #define MaxEl 100
-#define Mark User = [["---"],["---"],[-999]]  /* Nilai tak terdefinisi */
+#define Mark User   /* Nilai tak terdefinisi */
 #define InvalidIdx -1  /* Indeks tak terdefinisi */
 
-/* Definisi elemen dan koleks
+/* Definisi elemen dan koleksi objek */
 #define IdxType int
 #define ElType User
+#define Mark [["---"],["---"],[-999]]
 
 typedef struct {
 	ElType A[MaxEl];  /* Memori tempat penyimpanan elemen (container) */
@@ -76,7 +77,7 @@ boolean IsIdxEff (List L, IdxType i);
 /* yaitu antara FirstIdx(L)..LastIdx(L) */
 
 /* ********** Operasi-operasi ********** */
-boolean Search(List L, ElType X);
+boolean Search(List L, char name);
 /* Prekondisi : X sembarang */
 /* Mengirimkan true jika terdapat elemen X di dalam list */
 /* yaitu antara FirstIdx(L)..LastIdx(L) */
@@ -89,7 +90,7 @@ void InsertAt(List *L, ElType X, IdxType i);
 /* I.S. L terdefinisi, tidak kosong, i merupakan indeks lojik yang valid di L. */
 /* F.S. v disisipkan dalam L pada indeks ke-i (bukan menimpa elemen di i). */
 
-void InsertLast(List *L, ElType X);
+void InsertLast(List *L, char name, char password);
 /* I.S. L terdefinisi, mungkin kosong. */
 /* F.S. v menjadi elemen terakhir L. */
 
