@@ -3,30 +3,28 @@
 #include "save.h"
 
 // saving
-void saveFile(const char *filename) {
+void SAVE(const char *filename) {
     char filepath[100];
-    concat(filepath, "save %s", filename);
-
-    FILE *file = fopen(filepath, "f");
-    if (file == NULL) {
+    FILE *saveFile = fopen("save.txt", "w");
+    if (saveFile == NULL) {
         printf("Gagal menyimpan file.\n");
         return;
     }
-
-//menggunakan mesinkata
-STARTWORD();
-
-    while (!EndWord) {
-
-        for (int i = 0; i < currentWord.Length; i++) {
-            fputc(currentWord.TabWord[i], file);
-        }
-        fputc(' ', file); 
+    STARTWORD();
+        while (!EndWord) {
+            for (int i = 0; i < currentWord.Length; i++) {
+                fprintf(currentWord.TabWord[i], saveFile);
+            }
+        fprintf(' ', saveFile);
 
         ADVWORD();
-    }
-
-    fclose(file); 
+        }
+    fclose(saveFile); 
     printf("Save file berhasil disimpan.\n");
-//tambahan opsional: printf("// File disimpan pada /save/%s\n", filename);
+}
+
+int main(){
+    char filename[100];
+
+    SAVE(filename);
 }
