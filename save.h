@@ -1,7 +1,8 @@
 #ifndef SAVE_H
 #define SAVE_H 
 
-void concat();
+#include "mesinkata.h"
+
 void saveFile(const char *filename);
 
 #endif 
