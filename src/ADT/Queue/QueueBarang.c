@@ -53,13 +53,13 @@ void enqueue(Queue *q, ElType val)
     (*q).buffer[(*q).idxTail] = val;
 }
 
-void dequeue(Queue *q, ElType *val)
+void dequeue(Queue *q, char *InName)
 /* Proses: Menghapus val pada q dengan aturan FIFO */
 /* I.S. q tidak mungkin kosong */
 /* F.S. val = nilai elemen HEAD pd I.S., IDX_HEAD "mundur";
         q mungkin kosong */
 {
-    *val = (*q).buffer[(*q).idxHead];
+    *InName = (*q).buffer[(*q).idxHead].name;
     
     if ((*q).idxHead == (*q).idxTail) {
         (*q).idxHead = IDX_UNDEF;
