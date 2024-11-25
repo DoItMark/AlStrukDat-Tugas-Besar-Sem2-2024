@@ -2,6 +2,132 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "ADT/User/user.h"
+
+
+static User currentUser;
+static boolean isLoggedIn = false;
+
+void readConfig(const char *filename, ListBarang *listBarang, ListUser *listUser) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Error: Tidak dapat membuka file %s\n", filename);
+        exit(1);
+    }
+
+    fscanf(file, "%d", &listBarang->Neff);
+    for (int i = 0; i < listBarang->Neff; i++) {
+        fscanf(file, "%d", &listBarang->A[i].price);
+        fgetc(file); // Mengabaikan spasi setelah harga
+        fgets(listBarang->A[i].name, MAX_LEN, file);
+        // Menghapus newline di akhir nama barang
+        listBarang->A[i].name[strcspn(listBarang->A[i].name, "\n")] = '\0';
+    }
+
+    int jumlahUser;
+    fscanf(file, "%d", &jumlahUser);
+    for (int i = 0; i < jumlahUser; i++) {
+        fscanf(file, "%d", &listUser->A[i].money);
+        fscanf(file, "%s", listUser->A[i].name);
+        fscanf(file, "%s", listUser->A[i].password);
+    }
+
+    fclose(file);
+}
+
+void START() {
+    ListBarang listBarang = MakeListBarang();
+    ListUser listUser = MakeListUser();
+
+    readConfig("default.txt", &listBarang, &listUser);
+
+    printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
+
+    // // Menampilkan daftar barang
+    // printf("Daftar Barang:\n");
+    // for (int i = 0; i < listBarang.Neff; i++) {
+    //     printf("%d %s\n", listBarang.A[i].price, listBarang.A[i].name);
+    // }
+
+    // // Menampilkan daftar pengguna
+    // printf("\nDaftar Pengguna:\n");
+    // for (int i = 0; i < LengthUser(listUser); i++) {
+    //     printf("%d %s %s\n", listUser.A[i].money, listUser.A[i].name, listUser.A[i].password);
+    // }
+
+    // Dealokasi memori
+    // DeallocateListBarang(&listBarang);
+}
+
+void LOAD(const char *filename, ListBarang *listBarang) {
+    DeallocateListBarang(&listBarang);
+    ListBarang listBarang = MakeListBarang();
+    ListUser listUser = MakeListUser();
+
+    char filepath[256];
+    snprintf(filepath, sizeof(filepath), "../save/%s", filename);
+
+    FILE *file = fopen(filepath, "r");
+    if (file == NULL) {
+        printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
+        return;
+    }
+    fclose(file);
+
+    readConfig(filepath, &listBarang, &listUser);
+
+    printf("Save file berhasil dibaca. PURRMART berhasil dijalankan.\n");
+
+    // // Menampilkan daftar barang
+    // printf("Daftar Barang:\n");
+    // for (int i = 0; i < listBarang.Neff; i++) {
+    //     printf("%d %s\n", listBarang.A[i].price, listBarang.A[i].name);
+    // }
+
+    // // Menampilkan daftar pengguna
+    // printf("\nDaftar Pengguna:\n");
+    // for (int i = 0; i < LengthUser(listUser); i++) {
+    //     printf("%d %s %s\n", listUser.A[i].money, listUser.A[i].name, listUser.A[i].password);
+    // }
+
+    // // Dealokasi memori
+    // DeallocateListBarang(&listBarang);
+}
+
+boolean authenticate(ListUser listUser, char *username, char *password) {
+    for (int i = 0; i < LengthUser(listUser); i++) {
+        if (strcmp(listUser.A[i].name, username) == 0 && strcmp(listUser.A[i].password, password) == 0) {
+            currentUser.money = listUser.A[i].money;
+            return true;
+        }
+    }
+    return false;
+}
+
+void LOGIN(ListUser listUser) {
+    if (isLoggedIn) {
+        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", currentUser.name);
+        return;
+    }
+
+    char username[MAX_LEN];
+    char password[MAX_LEN];
+
+    printf("Username: ");
+    readString(username, MAX_LEN);
+    printf("Password: ");
+    readString(password, MAX_LEN);
+
+    if (authenticate(listUser, username, password)) {
+        isLoggedIn = true;
+        strcpy(currentUser.name, username);
+        strcpy(currentUser.password, password);
+        printf("Anda telah login ke PURRMART sebagai %s.\n", username);
+    } else {
+        printf("Username atau password salah.\n");
+    }
+}
+
 
 void WORK() {
     const char *pekerjaan[] = {
@@ -130,6 +256,7 @@ void WORDL3() {
 }
 
 int main() {
+    START();
     WORK();
     WORDL3();
     return 0;

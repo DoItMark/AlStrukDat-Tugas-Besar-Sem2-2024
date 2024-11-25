@@ -1,0 +1,8 @@
+4
+30 Berlian
+20 Emas
+10 Besi
+5 Batu
+2
+5000 admin admin
+10 user user
