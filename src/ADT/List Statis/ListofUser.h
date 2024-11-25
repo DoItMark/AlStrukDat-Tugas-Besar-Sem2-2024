@@ -10,10 +10,10 @@
 
 /* Kamus Umum */
 #define MaxEl 100
-#define Mark "---"  /* Nilai tak terdefinisi */
+#define Mark User = [["---"],["---"],[-999]]  /* Nilai tak terdefinisi */
 #define InvalidIdx -1  /* Indeks tak terdefinisi */
 
-/* Definisi elemen dan koleksi objek */
+/* Definisi elemen dan koleks
 #define IdxType int
 #define ElType User
 
