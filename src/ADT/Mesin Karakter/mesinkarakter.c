@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include "mesinkarakter.h"
+#include "../../boolean.h"
+#include <stdio.h>
 
 char currentChar;
 boolean EOP;
@@ -33,4 +34,10 @@ boolean IsEOP() {
     /* Mengirimkan true jika currentChar = MARK */
     /* Algoritma */
     return EOP;
+}
+
+/* Prosedur Custom (tidak dari praktikum). Digunakan untuk membaca pita karakter dari file*/
+void readFileChar(FILE *f){
+    pita = f;
+    ADV();
 }
