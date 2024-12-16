@@ -23,6 +23,7 @@ gcc -o program console.c ADT/Mesin_Kata/mesinkata.c ADT/Mesin_Karakter/mesinkara
 ./program
 ```
 <br />
+<br />
 setiap input harus diakhiri dengan titik "." karena menggunakan Mesin kata yang menentukan akhir input dengan character ".". <br />
 <br />
 <br />
