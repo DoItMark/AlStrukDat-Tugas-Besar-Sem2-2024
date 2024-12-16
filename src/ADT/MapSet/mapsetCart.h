@@ -2,9 +2,14 @@
 #define map_H
 #include <stdio.h>
 #include "../../boolean.h"
+#include "../List_Dinamis/ListofBarang.h"
+#include "../string/string.h"
+#include "../Barang/barang.h"
 
 /* MODUL Map
 Deklarasi stack yang dengan implementasi array eksplisit-statik rata kiri
+*/
+/* Diedit untuk menyesuaikan kebutuhan tugas
 */
 
 // #define false 0
@@ -14,19 +19,19 @@ Deklarasi stack yang dengan implementasi array eksplisit-statik rata kiri
 #define Undefined 0
 
 // typedef int bool;
-typedef int keytype;
-typedef int valuetype;
+typedef Barang keytype; // keytype = nama barang
+typedef int quantitytype; // jumlah barang
 typedef int address;
 
 typedef struct {
 	keytype Key;
-	valuetype Value;
-} infotype;
+	quantitytype Qty;
+} infotype; // infotype jadi char nama_barang, int harga_barang
 
 typedef struct {
 	infotype Elements[MaxEl];
 	address Count;
-} Map;
+} Map; // map jadi Qty. Infotype
 
 /* Definisi Map M kosong : M.Count = Nil */
 /* M.Count = jumlah element Map */
@@ -50,11 +55,12 @@ boolean IsFull(Map M);
 /* Ciri Map penuh : count bernilai MaxEl */
 
 /* ********** Operator Dasar Map ********* */
-valuetype Value(Map M, keytype k);
-/* Mengembalikan nilai value dengan key k dari M */
-/* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 
-void Insert(Map *M, keytype k, valuetype v);
+quantitytype Quantity(Map M, keytype k);
+/* Mengembalikan nilai quantity dengan key k dari M*/
+/* Jika tidak ada key k pada M, akan mengembalikan undefined*/
+
+void Insert(Map *M, keytype k, quantitytype);
 /* Menambahkan Elmt sebagai elemen Map M. */
 /* I.S. M mungkin kosong, M tidak penuh
         M mungkin sudah beranggotakan v dengan key k */
@@ -66,7 +72,23 @@ void Delete(Map *M, keytype k);
         element dengan key k mungkin anggota / bukan anggota dari M */
 /* F.S. element dengan key k bukan anggota dari M */
 
+void SubstractQty (Map *M, keytype k, quantitytype q);
+/* mengurangi quantitiy dari sebuah barang di cart*/
+/* I.S M tidak kosong
+	   element key k mungkin anggota / bukan anggota dari M*/
+/* F.S element key q dari key k akan berkurang sejumalh key q yang di input*/
+
 boolean IsMember(Map M, keytype k);
 /* Mengembalikan true jika k adalah member dari M */
+
+boolean IsInToko (keytype k, ListBarang L);
+/* mengembalika nilai true jika key k ada di toko */
+/* I.S L bisa kosong*/
+/* F.S mengembalikan nilai boolean berdasakarkan keberadaan key k pada List toko*/
+
+void PrintMap (Map M);
+/* mencetak map yang di input*/
+/* I.S M Bisa Kosong*/
+/* F.S Isi Element dari map tercetak di terminal */
 
 #endif

@@ -2,7 +2,7 @@
 #define BARANG_H
 #include <stdio.h>
 
-#define MAX_LEN 100
+#define MAX_LEN 25
 
 
 typedef struct {

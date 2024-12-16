@@ -11,7 +11,7 @@
 
 #define InitialSize 10
 
-typedef int IndexType;
+typedef int IdxType;
 typedef Barang ElType;
 typedef struct {
     ElType *A;

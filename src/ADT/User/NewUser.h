@@ -1,6 +1,8 @@
 #ifndef newuser_h
 #define newuser_h
-
+#include "../MapSet/mapsetCart.h"
+#include "../Stack/stack.h"
+#include "../linkedlist/listlinier.h"
 #define MAX_LEN 20
 
 typedef struct {
@@ -9,7 +11,7 @@ typedef struct {
   int money;
   Map keranjang;
   Stack riwayat_pembelian;
-  Linkedlist wishlist;
+  LinkedList wishlist;
 } User;
 
 
