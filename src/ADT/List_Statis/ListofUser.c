@@ -4,170 +4,149 @@
 #include "../Mesin_Kata/mesinkata.h"
 
 /* ********** KONSTRUKTOR ********** */
-/* Konstruktor: create list kosong */
-ListUser MakeListUser() {
-    ListUser L;
-    for (int i = 0; i < MaxEl; i++) {
-        stringCopy(L.A[i].name,"---"); // Initialize all elements with Mark
-    }
-    return L;
-}
+/* Konstruktor : create tabel kosong */
+void MakeEmpty (TabInt *T)
 /* I.S. sembarang */
-/* F.S. Terbentuk list L kosong dengan kapasitas MaxEl */
-
-/* ********** TEST KOSONG/PENUH ********** */
-/* *** Test list kosong *** */
-boolean IsEmpty(ListUser L){
-    return stringComp(L.A[0].name,"---");
+/* F.S. Terbentuk tabel T kosong dengan kapasitas IdxMax-IdxMin+1 */
+{
+	(*T).Neff = 0;
 }
-/* Mengirimkan true jika list L kosong, mengirimkan false jika tidak */
-
-/* *** Menghasilkan sebuah elemen *** */
-ElType Get(ListUser L, IdxType i){
-    ElType Elm;
-    User MarkUser;
-    stringCopy(MarkUser.name,"---");
-    if (!IsEmpty(L)){
-        if(i > InvalidIdx && i < LastIdx(L)){
-            *Elm.name = L.A[i].name;
-        }
-    }
-    else{return MarkUser;}
-    return Elm;
-}
-/* Prekondisi : list tidak kosong, i antara FirstIdx(T)..LastIdx(T) */
-/* Mengirimkan elemen list yang ke-i */
-
-/* *** Selektor SET : Mengubah nilai list dan elemen list *** */
-void Set(ListUser *L, IdxType i, ElType v){
-    if (!IsEmpty(*L)){
-        if(i > InvalidIdx && i < LastIdx(*L)){
-            if (!stringComp(v.name, "---")){
-                L->A[i] = v;
-            }
-            else{printf("value tidak valid");}
-           
-        }
-        else{printf("Idx tidak valid");}
-    }
-    else{printf("List Kosong");}
-    
-}
-/* I.S. T terdefinisi, sembarang */
-/* F.S. Elemen T yang ke-i bernilai v */
 
 /* ********** SELEKTOR ********** */
 /* *** Banyaknya elemen *** */
-int LengthUser(ListUser L){
-    int i = 0;
-    while (!stringComp(L.A[i].name, "---")){
-        i++;
-    }
-    return i;
+int NbElmt (TabInt T)
+/* Mengirimkan banyaknya elemen efektif tabel */
+/* Mengirimkan nol jika tabel kosong */
+{
+	return T.Neff;
 }
-/* Mengirimkan banyaknya elemen efektif list */
-/* Mengirimkan nol jika list kosong */
+
+/* *** Daya tampung container *** */
+int MaxNbEl (TabInt T)
+/* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
+{
+	return IdxMax - IdxMin + 1;
+}
 
 /* *** Selektor INDEKS *** */
-IdxType FirstIdx(ListUser L){
-    IdxType Idx = 0;
-    return Idx;
-}
-/* Prekondisi : list L tidak kosong */
+IdxType GetFirstIdx (TabInt T)
+/* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen pertama */
-
-IdxType LastIdx(ListUser L){
-    return Length(L) - 1;
+{
+	return 1;
 }
-/* Prekondisi : list L tidak kosong */
+IdxType GetLastIdx (TabInt T)
+/* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen terakhir */
+{
+	return T.Neff;
+}
+
+/* *** Menghasilkan sebuah elemen *** */
+User GetElmt (TabInt T, IdxType i)
+/* Prekondisi : Tabel tidak kosong, i antara FirstIdx(T)..LastIdx(T) */
+/* Mengirimkan elemen tabel yang ke-i */
+{
+	return T.TI[i];
+}
+
+/* *** Selektor SET : Mengubah nilai TABEL dan elemen tabel *** */
+/* Untuk type private/limited private pada bahasa tertentu */
+void SetTab (TabInt Tin, TabInt *Tout)
+/* I.S. Tin terdefinisi, sembarang */
+/* F.S. Tout berisi salinan Tin */
+/* Assignment THsl -> Tin */
+{
+	(*Tout).Neff = Tin.Neff;
+	for(int i = IdxMin; i <= Tin.Neff; i++){
+		(*Tout).TI[i] = Tin.TI[i];
+	}
+}
+
+void SetEl (TabInt *T, IdxType i, User v)
+/* I.S. T terdefinisi, sembarang */
+/* F.S. Elemen T yang ke-i bernilai v */
+/* Mengeset nilai elemen tabel yang ke-i sehingga bernilai v */
+{
+	(*T).TI[i] = v;
+	if ((*T).Neff < i){
+		(*T).Neff = i;
+	}
+}
+
+void SetNeff (TabInt *T, IdxType N)
+/* I.S. T terdefinisi, sembarang */
+/* F.S. Nilai indeks efektif T bernilai N */
+/* Mengeset nilai indeks elemen efektif sehingga bernilai N */
+{
+	(*T).Neff = N;
+}
 
 /* ********** Test Indeks yang valid ********** */
-boolean IsIdxValid (ListUser L, IdxType i){
-    return i < MaxEl && IsIdxEff(L,i) && i != InvalidIdx;
-}
+boolean IsIdxValid (TabInt T, IdxType i)
 /* Prekondisi : i sembarang */
-/* Mengirimkan true jika i adalah indeks yang valid utk ukuran list */
-/* yaitu antara indeks yang terdefinisi untuk container*/
-
-boolean IsIdxEff (ListUser L, IdxType i){
-    return i < Length(L) && i != InvalidIdx;
+/* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
+/* yaitu antara indeks yang terdefinisi utk container*/
+{
+	if ((i >= IdxMin) && (i <= IdxMax)){
+		return true;
+	} else {
+		return false;
+	}
 }
+
+boolean IsIdxEff (TabInt T, IdxType i)
 /* Prekondisi : i sembarang*/
-/* Mengirimkan true jika i adalah indeks yang terdefinisi utk list */
-/* yaitu antara FirstIdx(L)..LastIdx(L) */
-
-/* ********** Operasi-operasi ********** */
-boolean Search(ListUser L, char name){
-    for(int i; i = 0; i < Length(L),i++){
-        if (stringComp(L.A[i].name, name)){
-            return true;
-        }
-    }
-    return false;
-}
-/* Prekondisi : X sembarang */
-/* Mengirimkan true jika terdapat elemen X di dalam list */
-/* yaitu antara FirstIdx(L)..LastIdx(L) */
-
-void InsertFirst(ListUser *L, ElType X) {
-    InsertAt(L, X, 0); // Insert at index 0
+/* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
+/* yaitu antara FirstIdx(T)..LastIdx(T) */
+{
+	if ((i >= IdxMin) && (i <= T.Neff)){
+		return true;
+	} else {
+		return false;
+	}
 }
 
-void InsertAt(ListUser *L, ElType X, IdxType i) {
-    int len = Length(*L);
-    if (len < MaxEl && IsIdxValid(*L, i)) {
-        for (int j = len; j > i; j--) {
-            (*L).A[j] = (*L).A[j - 1]; // Shift elements to the right
-        }
-        (*L).A[i] = X; // Insert the element at index i
-    }
+/* ********** TEST KOSONG/PENUH ********** */
+/* *** Test tabel kosong *** */
+boolean IsEmptyArr (TabInt T)
+/* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
+{
+	if (T.Neff > 0){
+		return false;
+	} else {
+		return true;
+	}
+}
+/* *** Test tabel penuh *** */
+boolean IsFull (TabInt T)
+/* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
+{
+	if (T.Neff == IdxMax){
+		return true;
+	} else {
+		return false;
+	}
 }
 
-void InsertLast(ListUser *L, char name, char password) {
-    int len = Length(*L);
-    if (len < MaxEl) {
-        stringCopy((*L).A[len].name,name); // Insert at the end
-        stringCopy((*L).A[len].password , password);
-
-    }
-}
-
-void DeleteFirst(ListUser *L) {
-    DeleteAt(L, 0); // Delete the first element
-}
-
-void DeleteAt(ListUser *L, IdxType i) {
-    int len = Length(*L);
-    if (len > 0 && IsIdxEff(*L, i)) {
-        for (int j = i; j < len - 1; j++) {
-            (*L).A[j] = (*L).A[j + 1]; // Shift elements to the left
-        }
-        stringCopy((*L).A[len - 1].name, "---"); // Mark the last element as undefined
-    }
-}
-
-void DeleteLast(ListUser *L) {
-    int len = Length(*L);
-    if (len > 0) {
-        stringCopy((*L).A[len - 1].name , "---"); // Remove the last element
-    }
-}
-
-ListUser Concat(ListUser L1, ListUser L2) {
-    ListUser L = MakeListUser();
-    int len1 = Length(L1);
-    int len2 = Length(L2);
-
-    // Copy elements from L1
-    for (int i = 0; i < len1; i++) {
-        L.A[i] = L1.A[i];
-    }
-
-    // Copy elements from L2
-    for (int i = 0; i < len2; i++) {
-        L.A[len1 + i] = L2.A[i];
-    }
-
-    return L; // Return the concatenated list
+/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
+void TulisIsi (TabInt T)
+/* Proses : Menuliskan isi tabel dengan traversal */
+/* I.S. T boleh kosong */
+/* F.S. Jika T tidak kosong : indeks dan elemen tabel ditulis berderet ke bawah */
+/* Jika isi tabel [1,2,3] maka akan diprint
+0:1
+1:2
+2:3
+*/
+/* Jika T kosong : Hanya menulis "Tabel kosong" */
+{
+	int i;
+	if (IsEmptyArr(T)) {
+		printf("Tabel kosong\n");
+	} else {
+		for (i = IdxMin; i <= T.Neff; i++) {
+			printf("%d:%d\n", i, T.TI[i]);
+		}
+	}
 }

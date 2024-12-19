@@ -5,14 +5,13 @@
 #define __MESIN_KAR_H_
 
 #include "../../boolean.h"
-#include <stdio.h>
 
-#define MARK '\n'
-#define MARK_newline '\n'
+#define NEWLINE '\n'
 
 /* State Mesin */
 extern char currentChar;
 extern boolean EOP;
+extern boolean endOfFile;
 
 void START();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
@@ -36,11 +35,38 @@ char GetCC();
 boolean IsEOP();
 /* Mengirimkan true jika currentChar = MARK */
 
-void closePita();
+void StartReadFile(char* input);
+/* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
+   Karakter pertama yang ada pada pita posisinya adalah pada jendela.
+   Pita baca diambil dari file input.
+   I.S. : sembarang
+   F.S. : currentChar adalah karakter pertama pada pita
+          Jika belum mencapai karakter terakhir dalam file, maka EOP akan padam (false)
+          Jika telah mencapai karakter terakhir dalam file, maka EOP akan menyala (true) */
 
-void readFileChar(FILE * f);
+void ADVFile();
+/* Pita dimajukan satu karakter.
+   I.S. : Karakter pada jendela = currentChar, belum mencapai karakter terakhir dalam file
+   F.S. : currentChar adalah karakter berikutnya dari currentChar yang lama,
+          Jika belum mencapai karakter terakhir dalam file, maka EOP akan padam (false)
+          Jika telah mencapai karakter terakhir dalam file, maka EOP akan menyala (true) */
 
-boolean IsEOF();
+void StartReadNewLine();
+/* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
+   Karakter pertama yang ada pada pita posisinya adalah pada jendela.
+   Pita baca diambil dari stdin.
+   I.S. : sembarang
+   F.S. : currentChar adalah karakter pertama pada pita
+          Jika currentChar != NEWLINE maka EOP akan padam (false)
+          Jika currentChar = NEWLINE maka EOP akan menyala (true) */
 
-void readString(char *str, int maxLength);
+void ADVNewLine();
+/* Pita dimajukan satu karakter.
+   I.S. : Karakter pada jendela = currentChar, currentChar != MARK
+   F.S. : currentChar adalah karakter berikutnya dari currentChar yang lama,
+          currentChar mungkin = NEWLINE
+          Jika  currentChar = NEWLINE maka EOP akan menyala (true) */
+
+boolean isFileValid(char* input);
+
 #endif

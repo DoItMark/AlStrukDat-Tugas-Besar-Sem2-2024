@@ -1,7 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include "boolean.h"
+#include "../../boolean.h"
 
 // Menghitung panjang string
 int hitung_panjang(const char *str);
@@ -14,5 +14,7 @@ boolean bandingkan_string(const char *str1, const char *str2);
 
 // Mencari karakter c dalam string, mengembalikan true jika ditemukan, false jika tidak
 boolean cari_karakter(const char *str, char c);
+
+void hapuskarakter(char str[], int offset);
 
 #endif

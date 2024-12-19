@@ -1,40 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "mesinkarakter.h"
 
-void testStdin() {
-    printf("Ketik beberapa karakter dan tekan Enter untuk mengakhiri:\n");
-    START();
-    while (!IsEOP()) {
-        printf("%c", GetCC());
-        ADV();
+int main(){
+    // TEST MEMBACA KARAKTER DARI FILE
+    StartReadFile("test.txt");
+    printf("Karakter pertama di file test.txt adalah: %c\n", GetCC());
+    while(!endOfFile){
+        ADVFile();
     }
-    printf("\nSelesai membaca dari stdin\n");
-}
+    printf("\n");
 
-void testFile(const char* filename) {
-    FILE *f = fopen(filename, "r");
-
-    readFileChar(f);
-    if (IsEOF()) {
-        printf("File kosong\n");
-    } else {
-        printf("Isi file:\n");
-        while (!IsEOP() && !IsEOF()) {
-            printf("%c", GetCC());
-            ADV();
-        }
-        printf("\n");
+    // TEST MEMBACA KARAKTER DARI INPUT
+    printf("Masukkan satu karakter dan tekan ENTER: ");
+    StartReadNewLine();
+    printf("Kamu menulis: %c\n", GetCC());
+    printf("\n");
+    if(IsEOP){
+        printf("Selesai\n");
     }
-    closePita();
-}
-
-int main() {
-    testStdin();
-
-    testFile("test.txt");
-
-    testFile("empty.txt");
-
-    printf("\nPengujian selesai\n");
-    return 0;
 }

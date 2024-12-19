@@ -1,71 +1,54 @@
-/* File : queueBarang.h */
-/* Definisi ADT QueueBarang dengan representasi array secara eksplisit dan alokasi statik */
+#include <stdio.h>
+#include "queueBarang.h"
 
-#ifndef QUEUEBARANG_H
-#define QUEUEBARANG_H
+void CreateQueuebarang(Queuebarang *q){
+    IDX_HEAD(*q) = IDX_UNDEF;
+    IDX_TAIL(*q) = IDX_UNDEF;
+}
 
-#include "../../boolean.h"
-#include "barang.h"
+boolean isEmptybarang(Queuebarang q){
+    return ((IDX_HEAD(q)==IDX_UNDEF) && (IDX_TAIL(q)==IDX_UNDEF));
+}
 
-#define IDX_UNDEF -1
-#define CAPACITY 100
+boolean isFullbarang(Queuebarang q){
+    return ((IDX_TAIL(q)-IDX_HEAD(q)+1)%CAPACITY==0);
+}
 
-/* Definisi elemen dan address */
-typedef Barang ElType;
-typedef struct {
-    ElType buffer[CAPACITY]; 
-    int idxHead;
-    int idxTail;
-} QueueBarang;
+int lengthbarang(Queuebarang q){
+    if (isEmptybarang(q)){
+        return 0;
+    }
+    else{
+        if(IDX_HEAD(q)<=IDX_TAIL(q)){
+            return (IDX_TAIL(q)-IDX_HEAD(q)+1);
+        }
+        else{
+            return (CAPACITY+IDX_TAIL(q)-IDX_HEAD(q)+1);
+        }
+    }
+}
 
-/* ********* AKSES (Selektor) ********* */
-/* Jika q adalah QueueBarang, maka akses elemen : */
-#define IDX_HEAD(q) (q).idxHead
-#define IDX_TAIL(q) (q).idxTail
-#define HEAD(q) (q).buffer[(q).idxHead]
-#define TAIL(q) (q).buffer[(q).idxTail]
+void enqueuebarang(Queuebarang *q, elType val){
+    if (isEmptybarang(*q)){
+        IDX_HEAD(*q) = 0;
+        IDX_TAIL(*q) = 0;
+        TAIL(*q) = val;
+    }
+    else{
+        IDX_TAIL(*q)+=1;
+        IDX_TAIL(*q)=IDX_TAIL(*q)%CAPACITY;
+        (*q).buffer[IDX_TAIL(*q)] = val;
+    }
+}
 
-/* *** Kreator *** */
-void CreateQueueBarang(QueueBarang *q);
-/* I.S. sembarang */
-/* F.S. Sebuah q kosong terbentuk dengan kondisi sbb: */
-/* - Index head bernilai IDX_UNDEF */
-/* - Index tail bernilai IDX_UNDEF */
-/* Proses : Melakukan alokasi, membuat sebuah q kosong */
-
-/* ********* Prototype ********* */
-boolean isEmpty(QueueBarang q);
-/* Mengirim true jika q kosong: lihat definisi di atas */
-boolean isFull(QueueBarang q);
-/* Mengirim true jika tabel penampung elemen q sudah penuh */
-/* yaitu IDX_TAIL akan selalu di belakang IDX_HEAD dalam buffer melingkar */
-
-int length(QueueBarang q);
-/* Mengirimkan banyaknya elemen queue. Mengirimkan 0 jika q kosong. */
-
-/* *** Primitif Add/Delete *** */
-void enqueue(QueueBarang *q, ElType val);
-/* Proses: Menambahkan val pada q dengan aturan FIFO */
-/* I.S. q mungkin kosong, tabel penampung elemen q TIDAK penuh */
-/* F.S. val menjadi TAIL yang baru, IDX_TAIL "mundur" dalam buffer melingkar. */
-
-void dequeue(QueueBarang *q, ElType *val);
-/* Proses: Menghapus val pada q dengan aturan FIFO */
-/* I.S. q tidak mungkin kosong */
-/* F.S. val = nilai elemen HEAD pd I.S., IDX_HEAD "mundur";
-        q mungkin kosong */
-
-/* *** Display QueueBarang *** */
-void displayQueueBarang(QueueBarang q);
-/* Proses : Menuliskan isi QueueBarang dengan traversal, QueueBarang ditulis di antara kurung 
-   siku; antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan 
-   karakter di depan, di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. q boleh kosong */
-/* F.S. Jika q tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika QueueBarang kosong : menulis [] */
-
-boolean SearchQueueBarang(QueueBarang q, char *name);
-/* Mengirim true jika terdapat elemen dengan nama yang sesuai dalam queue */
-
-#endif
+void dequeuebarang(Queuebarang *q, elType *val){
+    *val = HEAD(*q);
+    if(lengthbarang(*q)==1){
+        IDX_HEAD(*q) = IDX_UNDEF;
+        IDX_TAIL(*q) = IDX_UNDEF;
+    }
+    else{
+        IDX_HEAD(*q)+=1;
+        IDX_HEAD(*q) = IDX_HEAD(*q)%CAPACITY;
+    }
+}

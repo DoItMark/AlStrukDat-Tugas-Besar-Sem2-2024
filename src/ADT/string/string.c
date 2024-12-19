@@ -39,3 +39,13 @@ boolean cari_karakter(const char *str, char c) {
     }
     return false;
 }
+
+void hapuskarakter(char str[], int offset) {
+    int i = 0;
+    while (str[i+offset] != '\0')
+    {
+        str[i] = str[i+offset];
+        i++;
+    }
+    str[i] = '\0';
+}

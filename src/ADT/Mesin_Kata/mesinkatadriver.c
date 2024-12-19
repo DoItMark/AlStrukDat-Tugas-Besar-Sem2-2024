@@ -1,44 +1,44 @@
-/* File: driver_mesinkata.c */
 #include <stdio.h>
+#include <stdlib.h>
 #include "mesinkata.h"
 
 int main() {
-    FILE *file = fopen("test.txt", "r");
-    if (file == NULL) {
-        printf("Error: File tidak dapat dibuka\n");
-        return 1;
-    }
+    printf("Membaca data dari file test.txt\n");
+    StartFileWord("test.txt");
 
-    printf("Isi file test.txt:\n");
-    
-    while (!feof(file)) {
-        StartWordFile(file);
-        while (!isEndWord() && !feof(file)) {
-            for (int i = 0; i < currentWord.Length; i++) {
-                printf("%c", currentWord.TabWord[i]);
-            }
-            
-            ADVWORD();
-            if (!isEndWord() && !feof(file)) {
-                printf(" ");
-            }
-        }
-        printf("\n");
-    }
-    
-    fclose(file);
-    
-    printf("Masukkan beberapa kata (tekan Enter untuk selesai):\n");
-    STARTWORD();
-    
-    while (!isEndWord()) {
-        printf("Kata yang dibaca: ");
+    while (!endOfFile) {
         for (int i = 0; i < currentWord.Length; i++) {
             printf("%c", currentWord.TabWord[i]);
         }
-        printf("\nPanjang kata: %d\n", currentWord.Length);
-        ADVWORD();
+        printf("\n");
+
+        // Pindah ke kata/baris berikutnya
+        ADVFileWordNewLine();
     }
-    
+    for (int i = 0; i < currentWord.Length; i++) {
+        printf("%c", currentWord.TabWord[i]);
+        }
+    if(endOfFile){
+        printf("\nSelesai\n");
+    }
+
+    printf("Membaca data dari input\n");
+        printf("Masukkan teks (akhiri dengan ENTER):\n");
+        StartWordNewLine();
+
+        while (!isEndWord()) {
+            for (int i = 0; i < currentWord.Length; i++) {
+                printf("%c", currentWord.TabWord[i]);
+            }
+            printf("\n");
+
+            // Pindah ke kata/baris berikutnya
+            ADVWordNewLine();
+        }
+        if (isEndWord()) {
+            printf("\nSelesai membaca input keyboard\n");
+        }
+
     return 0;
 }
+        

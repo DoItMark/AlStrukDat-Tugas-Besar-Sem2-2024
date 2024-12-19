@@ -1,133 +1,101 @@
-#include "console.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "ADT/User/user.h"
-
+#include "console.h"
 
 static User currentUser;
 static boolean isLoggedIn = false;
 
-void readConfig(const char *filename, ListBarang *listBarang, ListUser *listUser) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        printf("Error: Tidak dapat membuka file %s\n", filename);
-        exit(1);
-    }
+void STARTConfig(ArrayDin* arrayItems, TabInt* arrayUsers) { 
+    int total = 0; // representasi jumlah barang atau user yang tercatat
+    int n_riwayat_pembelian, n_wishlist;
+    Barang currentBarang; // menyimpan barang yg sedang diproses
+    User currentUser; // menyimpan user yg sedang diproses
 
-    fscanf(file, "%d", &listBarang->Neff);
-    for (int i = 0; i < listBarang->Neff; i++) {
-        fscanf(file, "%d", &listBarang->A[i].price);
-        fgetc(file); // Mengabaikan spasi setelah harga
-        fgets(listBarang->A[i].name, MAX_LEN, file);
-        // Menghapus newline di akhir nama barang
-        listBarang->A[i].name[strcspn(listBarang->A[i].name, "\n")] = '\0';
-    }
+    // Membuka file konfigurasi
+    StartFileWord("../save/config.txt");
 
-    int jumlahUser;
-    fscanf(file, "%d", &jumlahUser);
-    for (int i = 0; i < jumlahUser; i++) {
-        fscanf(file, "%d", &listUser->A[i].money);
-        fscanf(file, "%s", listUser->A[i].name);
-        fscanf(file, "%s", listUser->A[i].password);
-    }
+     // Membaca total barang yang tersimpan dalam file
+    total = wordToInt(currentWord);
 
-    fclose(file);
-}
+    // Memasukkan informasi barang ke arrayItems
+    for (int i = 0; i < total; i++) {
+        ADVFileWordSpace();
+        currentBarang.price = wordToInt(currentWord);
 
-void START() {
-    ListBarang listBarang = MakeListBarang();
-    ListUser listUser = MakeListUser();
-
-    readConfig("default.txt", &listBarang, &listUser);
-
-    printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
-
-    // // Menampilkan daftar barang
-    // printf("Daftar Barang:\n");
-    // for (int i = 0; i < listBarang.Neff; i++) {
-    //     printf("%d %s\n", listBarang.A[i].price, listBarang.A[i].name);
-    // }
-
-    // // Menampilkan daftar pengguna
-    // printf("\nDaftar Pengguna:\n");
-    // for (int i = 0; i < LengthUser(listUser); i++) {
-    //     printf("%d %s %s\n", listUser.A[i].money, listUser.A[i].name, listUser.A[i].password);
-    // }
-
-    // Dealokasi memori
-    // DeallocateListBarang(&listBarang);
-}
-
-void LOAD(const char *filename, ListBarang *listBarang) {
-    DeallocateListBarang(&listBarang);
-    ListBarang listBarang = MakeListBarang();
-    ListUser listUser = MakeListUser();
-
-    char filepath[256];
-    snprintf(filepath, sizeof(filepath), "../save/%s", filename);
-
-    FILE *file = fopen(filepath, "r");
-    if (file == NULL) {
-        printf("Save file tidak ditemukan. PURRMART gagal dijalankan.\n");
-        return;
-    }
-    fclose(file);
-
-    readConfig(filepath, &listBarang, &listUser);
-
-    printf("Save file berhasil dibaca. PURRMART berhasil dijalankan.\n");
-
-    // // Menampilkan daftar barang
-    // printf("Daftar Barang:\n");
-    // for (int i = 0; i < listBarang.Neff; i++) {
-    //     printf("%d %s\n", listBarang.A[i].price, listBarang.A[i].name);
-    // }
-
-    // // Menampilkan daftar pengguna
-    // printf("\nDaftar Pengguna:\n");
-    // for (int i = 0; i < LengthUser(listUser); i++) {
-    //     printf("%d %s %s\n", listUser.A[i].money, listUser.A[i].name, listUser.A[i].password);
-    // }
-
-    // // Dealokasi memori
-    // DeallocateListBarang(&listBarang);
-}
-
-boolean authenticate(ListUser listUser, char *username, char *password) {
-    for (int i = 0; i < LengthUser(listUser); i++) {
-        if (strcmp(listUser.A[i].name, username) == 0 && strcmp(listUser.A[i].password, password) == 0) {
-            currentUser.money = listUser.A[i].money;
-            return true;
+        ADVFileWordNewLine();
+        for (int j = 0; j < currentWord.Length; j++) {
+            currentBarang.name[j] = currentWord.TabWord[j];
         }
+        currentBarang.name[currentWord.Length] = '\0';
+
+        InsertLastArrDin(arrayItems, currentBarang);
     }
-    return false;
+
+    // Membaca total user yang tersimpan dalam file
+    ADVFileWordNewLine();
+    total = wordToInt(currentWord);
+
+    // Memasukkan informasi user ke arrayUsers
+    for (int i = 0; i < total; i++) {
+        currentUser.riwayat_pembelian = malloc(sizeof(Stack));
+        currentUser.wishlist = malloc(sizeof(LinkedList));
+        currentUser.keranjang = malloc(sizeof(Map));
+
+        CreateEmptyStack(currentUser.riwayat_pembelian);
+        CreateEmptyListLinier(currentUser.wishlist);
+        CreateEmptyMap(currentUser.keranjang);
+
+        ADVFileWordSpace();
+        currentUser.money = wordToInt(currentWord);
+
+        ADVFileWordSpace();
+        for (int j = 0; j < currentWord.Length; j++) {
+            currentUser.name[j] = currentWord.TabWord[j];
+        }
+        currentUser.name[currentWord.Length] = '\0';
+
+        ADVFileWordNewLine();
+        for (int j = 0; j < currentWord.Length; j++) {
+            currentUser.password[j] = currentWord.TabWord[j];
+        }
+        currentUser.password[currentWord.Length] = '\0';
+
+        ADVFileWordNewLine();
+        n_riwayat_pembelian = wordToInt(currentWord);
+        for (int i = 0; i < n_riwayat_pembelian; i++) {
+            barang_dibeli X;
+
+            ADVFileWordSpace();
+            X.totalharga = wordToInt(currentWord);
+
+            ADVFileWordNewLine();
+            for (int j = 0; j < currentWord.Length; j++) {
+                X.name[j] = currentWord.TabWord[j];
+            }
+            X.name[currentWord.Length] = '\0';
+            PushStack(currentUser.riwayat_pembelian, X);
+        }
+
+        ADVFileWordNewLine();
+        n_wishlist = wordToInt(currentWord);
+        for (int i = 0; i < n_wishlist; i++) {
+            nama_barang X;
+
+            ADVFileWordNewLine();
+            for (int j = 0; j < currentWord.Length; j++) {
+                X[j] = currentWord.TabWord[j];
+            }
+            X[currentWord.Length] = '\0';
+            InsVLast(currentUser.wishlist, X);
+        }
+
+        SetEl(arrayUsers, i, currentUser);
+    }
+
+    arrayUsers->Neff = total;
+    printf("File konfigurasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
 }
-
-void LOGIN(ListUser listUser) {
-    if (isLoggedIn) {
-        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", currentUser.name);
-        return;
-    }
-
-    char username[MAX_LEN];
-    char password[MAX_LEN];
-
-    printf("Username: ");
-    readString(username, MAX_LEN);
-    printf("Password: ");
-    readString(password, MAX_LEN);
-
-    if (authenticate(listUser, username, password)) {
-        isLoggedIn = true;
-        strcpy(currentUser.name, username);
-        strcpy(currentUser.password, password);
-        printf("Anda telah login ke PURRMART sebagai %s.\n", username);
-    } else {
-        printf("Username atau password salah.\n");
-    }
-}
-
 
 void WORK() {
     const char *pekerjaan[] = {
@@ -154,7 +122,7 @@ void WORK() {
         readString(pilih, sizeof(pilih));
 
         for (int i = 0; i < num_works; i++) {
-            if (stringComp(pilih, pekerjaan[i])) {
+            if (bandingkan_string(pilih, pekerjaan[i])) {
                 choice = i;
                 break;
             }
@@ -212,7 +180,7 @@ void WORDL3() {
         readString(tebakan, PANJANG_KATA + 1);
 
         // Validasi panjang kata
-        if (stringLength(tebakan) != PANJANG_KATA) {
+        if (hitung_panjang(tebakan) != PANJANG_KATA) {
             printf("Kata harus berisi tepat %d huruf!\n\n", PANJANG_KATA);
             continue;
         }
@@ -223,7 +191,7 @@ void WORDL3() {
             if (tebakan[i] == jawaban[i]) {
                 tampilan[count][i * 3 + 1] = ' '; // Benar posisi
                 tampilan[count][i * 3 + 2] = ' ';
-            } else if (stringSearch(jawaban, tebakan[i])) {
+            } else if (cari_karakter(jawaban, tebakan[i])) {
                 tampilan[count][i * 3 + 1] = '*'; // Benar huruf, salah posisi
                 tampilan[count][i * 3 + 2] = ' ';
             } else {
@@ -243,7 +211,7 @@ void WORDL3() {
         printf("\n");
 
         // Cek kemenangan
-        if (stringComp(tebakan, jawaban)) {
+        if (bandingkan_string(tebakan, jawaban)) {
             printf("\nSelamat, Anda menang!\n");
             printf("+1500 rupiah telah ditambahkan ke akun Anda.\n");
             return;
@@ -251,13 +219,5 @@ void WORDL3() {
 
         count++;
     }
-
     printf("Maaf, Anda kalah. Jawaban yang benar adalah: %s\n", jawaban);
-}
-
-int main() {
-    START();
-    WORK();
-    WORDL3();
-    return 0;
 }
