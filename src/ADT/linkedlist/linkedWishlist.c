@@ -5,7 +5,7 @@
 
 #include "stdio.h"
 #include "stdlib.h"
-#include "listlinier.h"
+#include "linkedWishlist.h"
 
 /* PROTOTYPE */
 /****************** TEST LIST KOSONG ******************/

@@ -1,7 +1,16 @@
 3
+500 Nuclear Strike Privilege
 30 Airsoft Gun
 20 NERF Gun
 10 Ketapel
-2
-50 username password
+3
+50 user user
+0
+0
 100 zeta pacaraldoy
+1
+500 Nuclear Strike Privilege
+3
+Airsoft Gun
+NERF Gun
+Ketapel
