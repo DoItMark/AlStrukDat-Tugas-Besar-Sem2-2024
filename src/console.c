@@ -68,7 +68,7 @@ void STARTConfig(ArrayDin* arrayItems, TabInt* arrayUsers) {
         ADVFileWordNewLine();
         n_riwayat_pembelian = wordToInt(currentWord);
         for (int i = 0; i < n_riwayat_pembelian; i++) {
-            barang_dibeli X;
+            pembelian X;
 
             ADVFileWordSpace();
             X.totalharga = wordToInt(currentWord);
@@ -171,7 +171,7 @@ void LOAD(Word filename, ArrayDin* arrayItems, TabInt* arrayUsers, boolean * Ses
                 ADVFileWordNewLine();
                 n_riwayat_pembelian = wordToInt(currentWord);
                 for (int i = 0; i < n_riwayat_pembelian; i++) {
-                    barang_dibeli X;
+                    pembelian X;
 
                     ADVFileWordSpace();
                     X.totalharga = wordToInt(currentWord);
@@ -332,14 +332,14 @@ void SAVE (char* fileName, ArrayDin* arrayItems, TabInt* arrayUsers) { // Fungsi
             fprintf(file, "%d\n", total);
             
             // Memasukkan riwayat_pembelian user ke tempStack dahulu
-            // untuk menjaga urutan penulisan barang_dibeli yang terbalik
-            barang_dibeli currentBarangDibeli;
+            // untuk menjaga urutan penulisan pembelian yang terbalik
+            pembelian currentBarangDibeli;
             while (!IsEmptyStack(*arrayUsers->TI[i].riwayat_pembelian)) {
                 PopStack(arrayUsers->TI[i].riwayat_pembelian, &currentBarangDibeli);
                 PushStack(&tempStack, currentBarangDibeli);
             }
 
-            // Memasukkan barang_dibeli ke file
+            // Memasukkan pembelian ke file
             // dan memasukkannya kembali ke stack riwayat_pembelian
             // karena user mungkin tidak quit setelah save
             while (!IsEmptyStack(tempStack)) {
@@ -587,7 +587,7 @@ void workChallenge(TabInt *arrayUsers, int username_idx){
         }
         arrayUsers->TI[username_idx].money -= biaya[choice]; // Kurangi uang user
         printf("Uang Berkurang %d (Uang Sekarang = %d)\n", biaya[choice], arrayUsers->TI[username_idx].money);
-        // tebakAngka(arrayUsers, username_idx);
+        TebakAngka(arrayUsers, username_idx);
         break;
     case 1: // Case memilih Challenge TebakAngka
         if (arrayUsers->TI[username_idx].money < biaya[choice]) // Cek apakah uang user cukup
@@ -682,4 +682,77 @@ void WORDL3(TabInt *arrayUsers, int username_idx) {
         count++;
     }
     printf("Maaf, Anda kalah. Jawaban yang benar adalah: %s\n", jawaban);
+}
+
+void TebakAngka(TabInt *arrayUsers, int username_idx) {
+   srand(time(NULL)); // Inisialisasi random seed
+    int target = rand() % 100 + 1; 
+    int kesempatan = 10;          
+    int tebakan;                  
+
+    printf("=====TEBAK ANGKA=====\n");
+
+    while (kesempatan > 0) {
+        printf("Tebak Angka (1-100): ");
+        
+        STARTWORD();
+        if (isEndWord()) {
+            printf("Input tidak valid. Silakan masukkan angka.\n");
+            continue;
+        }
+
+        tebakan = wordToInt(currentWord);
+        if (tebakan < 1 || tebakan > 100) {
+            printf("Angka harus berada di antara 1-100. Silakan coba lagi.\n");
+            continue;
+        }
+
+        if (tebakan == target) {
+            int hadiah = 50 * kesempatan;
+            arrayUsers->TI[username_idx].money += hadiah;
+            printf("Tebakanmu benar! +%d rupiah telah ditambahkan ke saldo Anda.\n", hadiah);
+            return;
+        } else if (tebakan < target) {
+            printf("Tebakanmu lebih kecil!\n");
+        } else {
+            printf("Tebakanmu lebih besar!\n");
+        }
+
+        kesempatan--; 
+        if (kesempatan > 0) {
+            printf("Kesempatan tersisa: %d\n", kesempatan);
+        } else {
+            printf("Maaf, kesempatanmu habis. Angka yang benar adalah %d.\n", target);
+        }
+    }
+}
+
+void PROFILE(TabInt *arrayUsers, int username_idx) {
+    printf(">> PROFILE\n");
+    printf("Nama: %s\n", arrayUsers->TI[username_idx].name);
+    printf("Saldo: %d\n", arrayUsers->TI[username_idx].money);
+}
+
+void HISTORY(TabInt *arrayUsers, int username_idx, Word M) {
+    int N;
+    N = wordToInt(M);
+    if (IsEmptyStack(*arrayUsers->TI[username_idx].riwayat_pembelian)) {
+        printf("Kamu belum membeli barang apapun.\n");
+        return;
+    }
+
+    printf(">> HISTORY %d\n", N);
+    printf("Riwayat pembelian barang:\n");
+
+    Stack tempStack = *arrayUsers->TI[username_idx].riwayat_pembelian; 
+    int count = 0;
+
+    while (!IsEmptyStack(tempStack) && count < N) {
+        pembelian barang_dibeli;
+        PopStack(&tempStack, &barang_dibeli);
+
+        printf("%d. %s %d\n", count + 1, barang_dibeli.name, barang_dibeli.totalharga);
+        count++;
+    }
+    printf("> Command mati; Kembali ke menu utama\n");
 }

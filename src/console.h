@@ -25,6 +25,9 @@ void LOGOUT (char * username, int * username_idx);
 void WORK(TabInt *arrayUsers, int username_idx);
 void workChallenge(TabInt *arrayUsers, int username_idx);
 void WORDL3(TabInt *arrayUsers, int username_idx);
+void TebakAngka(TabInt *arrayUsers, int username_idx);
 void REGISTER(TabInt * arrayUsers);
+void PROFILE(TabInt *arrayUsers, int username_idx);
+void HISTORY(TabInt *arrayUsers, int username_idx, Word N);
 
 #endif

@@ -95,10 +95,11 @@ printf("========================================================================
             //     wishlist(&arrayUsers, username_idx, arrayItems, currentWord.TabWord);
             // } else if (bandingkan_string(currentWord.TabWord, "CART")) {
             //     cartfunction(&arrayUsers, username_idx, arrayItems, currentWord.TabWord);
-            // } else if (bandingkan_string(currentWord.TabWord, "HISTORY")) {
-            //     history(*arrayUsers.TI[username_idx].riwayat_pembelian, currentWord.TabWord);
-            // } else if(compareWordToString(currentWord, "PROFILE")) {
-            //     profile(arrayUsers, username_idx);
+            } else if (bandingkan_string(currentWord.TabWord, "HISTORY")) {
+                STARTWORD();
+                HISTORY(&arrayUsers, username_idx, currentWord);
+            } else if(compareWordToString(currentWord, "PROFILE")) {
+                PROFILE(&arrayUsers, username_idx);
             } else if (compareWordToString(currentWord, "LOGOUT")) {
                 LOGOUT(username, &username_idx);
                 loginStatus=false;

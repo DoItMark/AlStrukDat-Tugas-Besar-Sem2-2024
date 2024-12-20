@@ -7,7 +7,7 @@
 50 user user
 0
 0
-100 zeta pacaraldoy
+10000 zeta pacaraldoy
 1
 500 Nuclear Strike Privilege
 3
