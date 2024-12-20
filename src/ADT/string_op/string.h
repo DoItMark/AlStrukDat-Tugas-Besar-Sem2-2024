@@ -1,7 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
 
-#include "boolean.h"
+#include "../../boolean.h"
 
 // Menghitung panjang string
 int hitung_panjang(const char *str);

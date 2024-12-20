@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "help.c"
-#include "mesinkata.c"
-#include "string.h"
+#include "ADT/Mesin Kata/mesinkata.c"
+
 
 int main(){
     char status;
-    salin_string(status,"main_menu");
+    salin_string(&status,"main_menu");
     STARTWORD();
-    if (banding_kata(currentWord.TabWord,"HELP")){
+
+
+    if (bandingkan_string(currentWord.TabWord,"HELP")){
         help(status);
     }
-
+    return 0;
 }

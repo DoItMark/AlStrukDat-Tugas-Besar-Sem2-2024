@@ -1,4 +1,3 @@
-#include "boolean.h"
 #include "string.h"
 
 int hitung_panjang(const char *str) {

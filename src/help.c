@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include "help.h"
-#include "boolean.h"
-#include "string.h"
+#include "ADT/string_op/string.c"
 
 void help(char status){
-    if (bandingkan_string(status,"welcome_menu")){
+    if (bandingkan_string(&status,"welcome_menu")){
         printf("=====[ Welcome Menu Help PURRMART ]=====\n");
         printf("1. START -> Untuk masuk sesi baru\n");
         printf("2. LOAD -> Untuk memulai sesi berdasarkan file konfigurasi\n");
         printf("3. QUIT -> Untuk keluar dari program ");
     }
-    else if (bandingkan_string(status,"login_menu")){
+    else if (bandingkan_string(&status,"login_menu")){
         printf("=====[ Login Menu Help PURRMART ]=====\n");
         printf("1. REGISTER -> Untuk melakukan pendaftaran akun baru\n");
         printf("2. LOGIN -> Untuk masuk ke dalam akun dan memulai sesi\n");
         printf("3. QUIT -> Untuk keluar dari program\n");
     }
-    else if(bandingkan_string(status,"main_menu")){
+    else if(bandingkan_string(&status,"main_menu")){
         printf("=====[ Menu Help PURRMART ]=====\n");
         printf("1. WORK -> Untuk bekerja\n");
         printf("2. WORK CHALLENGE -> Untuk mengerjakan challenge\n");
