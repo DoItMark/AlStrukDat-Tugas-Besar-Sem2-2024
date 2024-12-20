@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "mesinkata.h": "c",
-        "stdlib.h": "c",
-        "boolean.h": "c",
-        "console.h": "c",
-        "stdio.h": "c"
-    }
-}

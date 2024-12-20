@@ -29,7 +29,7 @@ void ADVKALIMAT(){
 
 void CopyKalimat(){
     int i = 0;
-    while(GetCC()!=NEWLINE && i<Max){
+    while(GetCC()!=NEWLINE && i<NMax){
         CurrentKalimat.TabWord[i] = GetCC();
         ADV();
         i++;

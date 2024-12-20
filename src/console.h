@@ -2,7 +2,7 @@
 #define CONSOLE_H
 
 #include "ADT/User/user.h"
-#include "ADT/Barang/Barang.h"
+#include "ADT/Barang/barang.h"
 #include "ADT/Mesin_Kalimat/mesinkalimat.h"
 #include "ADT/Mesin_Kata/mesinkata.h"
 #include "ADT/Mesin_Karakter/mesinkarakter.h"
