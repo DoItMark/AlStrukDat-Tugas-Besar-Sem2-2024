@@ -255,6 +255,44 @@ void WORDL3() {
     printf("Maaf, Anda kalah. Jawaban yang benar adalah: %s\n", jawaban);
 }
 
+// Fungsi PROFILE untuk menampilkan data diri pengguna
+void PROFILE(TabInt arrayUsers, int username_idx) {
+    // Menampilkan data diri pengguna aktif
+    printf(">> PROFILE\n");
+    printf("Nama: %s\n", arrayUsers.TI[username_idx].name);
+    printf("Saldo: %d\n", arrayUsers.TI[username_idx].money);
+
+    printf("> Kembali ke menu utama\n");
+}
+
+// Fungsi HISTORY untuk menampilkan riwayat pembelian
+void HISTORY(TabInt arrayUsers, int username_idx, int N) {
+    // Periksa apakah riwayat pembelian kosong
+    if (IsEmptyStack(*arrayUsers.TI[username_idx].riwayat_pembelian)) {
+        printf("Kamu belum membeli barang apapun.\n");
+        return;
+    }
+
+    printf(">> HISTORY %d\n", N);
+    printf("Riwayat pembelian barang:\n");
+
+    // Menampilkan riwayat pembelian
+    Stack tempStack = *arrayUsers.TI[username_idx].riwayat_pembelian; // Salin stack untuk iterasi
+    int count = 0;
+
+    while (!IsEmptyStack(tempStack) && count < N) {
+        // Ambil elemen dari stack
+        barang_dibeli pembelian;
+        PopStack(&tempStack, &pembelian);
+
+        // Cetak elemen
+        printf("%d. %s %d\n", count + 1, pembelian.name, pembelian.totalharga);
+        count++;
+    }
+
+    printf("> Command mati; Kembali ke menu utama\n");
+}
+
 int main() {
     START();
     WORK();
