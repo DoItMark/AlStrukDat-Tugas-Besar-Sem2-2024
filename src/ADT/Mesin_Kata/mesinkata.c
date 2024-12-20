@@ -9,7 +9,7 @@ void IgnoreBlanks()
     /* Mengabaikan satu atau beberapa BLANK
        I.S. : currentChar sembarang
        F.S. : currentChar ≠ BLANK atau currentChar = NEWLINE */
-    while (currentChar == BLANK || currentChar == NEWLINE)
+    while (currentChar == BLANK)
     {
         ADV();
     }
