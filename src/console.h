@@ -19,4 +19,7 @@ void WORK();
 
 void WORDL3();
 
+void PROFILE(TabInt arrayUsers, int username_idx);
+void HISTORY(TabInt arrayUsers, int username_idx, int N);
+
 #endif
