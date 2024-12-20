@@ -1,0 +1,83 @@
+#include "listlinier.c"
+#include "stdio.h"
+#include "stdlib.h"
+
+// Fungsi untuk membandingkan dua string secara manual
+boolean CompareStrings(const char *str1, const char *str2) {
+    int i = 0;
+
+    // Looping untuk membandingkan karakter satu per satu
+    while (str1[i] != '\0' && str2[i] != '\0') {
+        if (str1[i] != str2[i]) {
+            return false; // Karakter tidak cocok
+        }
+        i++;
+    }
+
+    // Jika salah satu string masih ada karakter yang tersisa, maka tidak sama
+    return (str1[i] == '\0' && str2[i] == '\0');
+}
+
+void WISHLIST_REMOVE(LinkedList *L, const char *nama_barang) {
+    address P, Prec = Nil;
+    boolean found = false;
+
+    // Mengecek apakah list kosong
+    if (IsEmpty(*L)) {
+        printf("Penghapusan barang WISHLIST gagal dilakukan, WISHLIST kosong!\n");
+        printf("Command mati; Kembali ke main menu\n");
+        return;
+    }
+
+    // Mencari elemen berdasarkan nilai data
+    P = First(*L);
+    while (P != Nil && !found) {
+        if (CompareStrings(Info(P), nama_barang)) { // Membandingkan string secara manual
+            found = true;
+        } else {
+            Prec = P; // Menyimpan elemen sebelumnya
+            P = Next(P);
+        }
+    }
+
+    // Jika elemen ditemukan
+    if (found) {
+        if (Prec == Nil) {
+            // Elemen pertama yang dihapus
+            First(*L) = Next(P);
+        } else {
+            // Elemen di tengah atau akhir
+            Next(Prec) = Next(P);
+        }
+        Dealokasi(&P); // Menghapus elemen dari memori
+        printf("%s berhasil dihapus dari WISHLIST!\n", nama_barang);
+    } else {
+        // Elemen tidak ditemukan
+        printf("Penghapusan barang WISHLIST gagal dilakukan, %s tidak ada di WISHLIST!\n", nama_barang);
+    }
+
+    printf("Command mati; Kembali ke main menu\n");
+}
+
+int main() {
+    LinkedList wishlist;
+    CreateEmpty(&wishlist);
+
+    // Tambahkan beberapa elemen ke wishlist
+    InsVLast(&wishlist, "Lalabu");
+    InsVLast(&wishlist, "AK47");
+    InsVLast(&wishlist, "Ayam Goreng");
+
+    // Hapus barang "Lalabu" dari wishlist
+    WISHLIST_REMOVE(&wishlist, "Lalabu");
+
+    // Tampilkan wishlist setelah penghapusan
+    printf("Wishlist sekarang: ");
+    PrintInfo(wishlist);
+    printf("\n");
+    printf("Masuk ke fungsi WISHLIST_REMOVE\n");
+    printf("Nama barang yang dihapus: %s\n");
+
+
+    return 0;
+}
