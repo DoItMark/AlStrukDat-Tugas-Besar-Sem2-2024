@@ -3,7 +3,6 @@
 
 #include "ADT/User/user.h"
 #include "ADT/Barang/Barang.h"
-#include "ADT/Mesin_Kalimat/mesinkalimat.h"
 #include "ADT/Mesin_Kata/mesinkata.h"
 #include "ADT/Mesin_Karakter/mesinkarakter.h"
 #include "ADT/List_Statis/ListofUser.h"

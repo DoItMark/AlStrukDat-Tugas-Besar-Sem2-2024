@@ -5,7 +5,7 @@
 
 int main() {
     char username[MAX_LEN]; // Nama username di file konfigurasi
-    int username_idx = -1; // Index username di file konfigurasi
+    int username_idx; // Index username di file konfigurasi
     ArrayDin arrayItems; // ListofBarang
     TabInt arrayUsers; // ListofUser
     arrayItems = MakeArrayDin();
