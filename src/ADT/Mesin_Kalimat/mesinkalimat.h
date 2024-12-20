@@ -1,11 +1,9 @@
-/* File: mesinkata.h */
-/* Definisi Mesin Kata: Model Akuisisi Versi I */
-
-#ifndef __MESINKATA_H__
-#define __MESINKATA_H__
+#ifndef mesinkalimat_H
+#define mesinkalimat_H
 
 #include "../../boolean.h"
-#include "../Mesin Karakter/mesinkarakter.h"
+#include "../Mesin_Kata/mesinkata.h"
+#include "../Mesin_Karakter/mesinkarakter.h"
 
 #define NMax 50
 #define BLANK ' '
@@ -14,31 +12,31 @@ typedef struct
 {
    char TabWord[NMax]; /* container penyimpan kata, indeks yang dipakai [0..NMax-1] */
    int Length;
-} Word;
+} Kalimat;
 
 /* State Mesin Kata */
-extern boolean EndWord;
-extern Word currentWord;
+extern boolean EndKalimat;
+extern Kalimat CurrentKalimat;
 
-void IgnoreBlanks();
+void IgnoreBlank();
 /* Mengabaikan satu atau beberapa BLANK
    I.S. : currentChar sembarang
    F.S. : currentChar ≠ BLANK atau currentChar = MARK */
 
-void STARTWORD();
+void STARTKALIMAT();
 /* I.S. : currentChar sembarang
    F.S. : EndWord = true, dan currentChar = MARK;
           atau EndWord = false, currentWord adalah kata yang sudah diakuisisi,
           currentChar karakter pertama sesudah karakter terakhir kata */
 
-void ADVWORD();
+void ADVKALIMAT();
 /* I.S. : currentChar adalah karakter pertama kata yang akan diakuisisi
    F.S. : currentWord adalah kata terakhir yang sudah diakuisisi,
           currentChar adalah karakter pertama dari kata berikutnya, mungkin MARK
           Jika currentChar = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinWord */
 
-void CopyWord();
+void CopyKalimat();
 /* Mengakuisisi kata, menyimpan dalam currentWord
    I.S. : currentChar adalah karakter pertama dari kata
    F.S. : currentWord berisi kata yang sudah diakuisisi;
@@ -46,6 +44,6 @@ void CopyWord();
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
-boolean isEndWord();
+boolean compareKalimatToString(Kalimat word, char* string);
 
 #endif

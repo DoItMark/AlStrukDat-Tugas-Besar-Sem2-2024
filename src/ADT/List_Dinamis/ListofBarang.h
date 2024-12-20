@@ -1,19 +1,15 @@
-#ifndef __ARRAY_DINAMIK__
-#define __ARRAY_DINAMIK__
+#ifndef ListofBarang_H
+#define ListofBarang_H
 
-// Boolean
-#define boolean unsigned char
-#define true 1
-#define false 0
-#include "boolean.h"
-#include "barang.h"
+#include "../Barang/barang.h"
+#include "../../boolean.h"
 
-#define InitialSize 10
+#define InitialSize 50
+#define MAX_LEN 100
 
 typedef int IdxType;
-typedef Barang ElType;
 typedef struct {
-    ElType *A;
+    Barang *A;
     int Capacity;
     int Neff;
 } ArrayDin;
@@ -48,7 +44,7 @@ int Length(ArrayDin array);
  * Mengembalikan elemen array L yang ke-I (indeks lojik).
  * Prekondisi: array tidak kosong, i di antara 0..Length(array).
  */
-ElType Get(ArrayDin array, IdxType i);
+Barang Get(ArrayDin array, IdxType i);
 
 /**
  * Fungsi untuk mendapatkan kapasitas yang tersedia.
@@ -60,19 +56,19 @@ int GetCapacity(ArrayDin array);
  * Fungsi untuk menambahkan elemen baru di index ke-i
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  */
-void InsertAt(ArrayDin *array, ElType el, IdxType i);
+void InsertAt(ArrayDin *array, Barang el, IdxType i);
 
 /**
  * Fungsi untuk menambahkan elemen baru di akhir array.
  * Prekondisi: array terdefinisi
  */
-void InsertLast(ArrayDin *array, ElType el);
+void InsertLastArrDin(ArrayDin *array, Barang el);
 
 /**
  * Fungsi untuk menambahkan elemen baru di awal array.
  * Prekondisi: array terdefinisi
  */
-void InsertFirst(ArrayDin *array, ElType el);
+void InsertFirstArrDin(ArrayDin *array, Barang el);
 
 /**
  * Fungsi untuk menghapus elemen di index ke-i ArrayDin
@@ -118,6 +114,6 @@ ArrayDin CopyArrayDin(ArrayDin array);
  * Jika tidak ditemukan, akan mengembalikan -1.
  * Prekondisi: array terdefinisi
  */
-IdxType SearchArrayDin(ArrayDin array, char el);
+IdxType SearchArrayDin(ArrayDin array, Barang el);
 
 #endif

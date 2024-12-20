@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "arraydin.h"
+#include "ListofBarang.h"
 
 /**
  * Konstruktor
@@ -9,7 +9,7 @@
  */
 ArrayDin MakeArrayDin() {
     ArrayDin array;
-    array.A = (ElType *) malloc(InitialSize * sizeof(ElType));
+    array.A = (Barang *) malloc(InitialSize * sizeof(Barang));
     array.Capacity = InitialSize;
     array.Neff = 0;
     return array;
@@ -39,7 +39,7 @@ int Length(ArrayDin array) {
  * Mengembalikan elemen array L yang ke-I (indeks lojik).
  * Prekondisi: array tidak kosong, i di antara 0..Length(array).
  */
-ElType Get(ArrayDin array, IdxType i) {
+Barang Get(ArrayDin array, IdxType i) {
     return array.A[i];
 }
 
@@ -56,13 +56,13 @@ int GetCapacity(ArrayDin array) {
  * Prekondisi: array terdefinisi, i di antara 0..Length(array).
  * Jika array penuh, maka array akan diperbesar sebanyak InitialSize.
  */
-void InsertAt(ArrayDin *array, ElType el, IdxType i) {
+void InsertAt(ArrayDin *array, Barang el, IdxType i) {
     int length = Length(*array);
     int capacity = GetCapacity(*array);
 
     if (length == capacity) {
         int desiredCapacity = capacity + InitialSize;
-        ElType *arr = (ElType *) malloc(desiredCapacity * sizeof(ElType));
+        Barang *arr = (Barang *) malloc(desiredCapacity * sizeof(Barang));
         for (int a = 0; a < length; a++) {
             arr[a] = Get(*array, a);
         }
@@ -84,7 +84,7 @@ void InsertAt(ArrayDin *array, ElType el, IdxType i) {
  * Fungsi untuk menambahkan elemen baru di akhir array.
  * Prekondisi: array terdefinisi
  */
-void InsertLast(ArrayDin *array, ElType el) {
+void InsertLastArrDin(ArrayDin *array, Barang el) {
     int insertAt = Length(*array);
     InsertAt(array, el, insertAt);
 }
@@ -93,7 +93,7 @@ void InsertLast(ArrayDin *array, ElType el) {
  * Fungsi untuk menambahkan elemen baru di awal array.
  * Prekondisi: array terdefinisi
  */
-void InsertFirst(ArrayDin *array, ElType el) {
+void InsertFirstArrDin(ArrayDin *array, Barang el) {
     InsertAt(array, el, 0);
 }
 
@@ -154,7 +154,7 @@ void PrintArrayDin(ArrayDin array) {
 void ReverseArrayDin(ArrayDin *array) {
     int length = Length(*array);
     for (int i = 0; i < length / 2; i++) {
-        ElType temp = array->A[i];
+        Barang temp = array->A[i];
         array->A[i] = array->A[length - i - 1];
         array->A[length - i - 1] = temp;
     }
@@ -167,7 +167,7 @@ void ReverseArrayDin(ArrayDin *array) {
 ArrayDin CopyArrayDin(ArrayDin array) {
     ArrayDin copy = MakeArrayDin();
     for (int i = 0; i < array.Neff; i++) {
-        InsertLast(&copy, array.A[i]);
+        InsertLastArrDin(&copy, array.A[i]);
     }
     return copy;
 }
@@ -178,9 +178,9 @@ ArrayDin CopyArrayDin(ArrayDin array) {
  * Jika tidak ditemukan, akan mengembalikan -1.
  * Prekondisi: array terdefinisi
  */
-IdxType SearchArrayDin(ArrayDin array, ElType el) {
+IdxType SearchArrayDin(ArrayDin array, Barang el) {
     for (int i = 0; i < array.Neff; i++) {
-        if (array.A[i] == el) {
+        if (array.A[i].name == el.name) {
             return i;
         }
     }

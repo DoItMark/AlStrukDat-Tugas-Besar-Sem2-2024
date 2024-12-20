@@ -3,7 +3,7 @@
 30 Airsoft Gun
 20 NERF Gun
 10 Ketapel
-3
+1
 50 user user
 0
 0
