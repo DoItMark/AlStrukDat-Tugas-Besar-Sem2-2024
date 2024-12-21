@@ -772,10 +772,10 @@ void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, Wor
            REMOVE(arrayUsers->TI[username_idx].keranjang, arrayitems); 
         }
         else if(compareWordToString(currentWord,"SHOW")){
-           SHOW(*arrayUsers->TI[username_idx].keranjang); 
+           SHOW(*arrayUsers->TI[username_idx].keranjang, arrayitems); 
         }
         else if(compareWordToString(currentWord,"PAY")){
-           PAY(arrayUsers->TI[username_idx].keranjang, arrayUsers, username_idx); 
+           PAY(arrayUsers->TI[username_idx].keranjang, arrayUsers, username_idx, arrayitems); 
         }
 }
 void ADD(Map* UserCart, ArrayDin arrayItems){
@@ -785,11 +785,7 @@ void ADD(Map* UserCart, ArrayDin arrayItems){
     if (SearchArrayDin(arrayItems,&Name)){
         STARTWORD();
         int qty = wordToInt(currentWord);
-        Barang item;
-        item.price = Get(arrayItems,SearchArrayDin(arrayItems,&Name)).price;
-        salin_string(item.name, Get(arrayItems,SearchArrayDin(arrayItems,&Name)).name);
-
-        InsertMap(UserCart,item,qty);
+        InsertMap(UserCart,&Name,qty);
         printf("Barang berhasil ditambah:%s %d",Name,qty);
     }
     else{printf("Barang tidak ada di toko");}
@@ -798,11 +794,10 @@ void REMOVE(Map* UserCart, ArrayDin arrayItems){
     STARTWORD();
     char Name;
     salin_string(&Name,currentWord.TabWord);
-    Barang item  = Get(arrayItems,SearchArrayDin(arrayItems,&Name));
-    if(IsMemberMap(*UserCart,item)){
+    if(IsMemberMap(*UserCart,&Name)){
         STARTWORD();
         int qty = wordToInt(currentWord);
-        if (qty > ValueMap(*UserCart,item)){
+        if (qty > ValueMap(*UserCart,&Name)){
                 UserCart->Elements->Value -= qty;
                 printf("Barang berhasil dikurangi, akhir: %s %d",Name,UserCart->Elements->Value);
         }
@@ -810,24 +805,24 @@ void REMOVE(Map* UserCart, ArrayDin arrayItems){
     }
     else{printf("Barang tidak ada di keranjang");}
 }
-void SHOW(Map UserCart){
+void SHOW(Map UserCart, ArrayDin arrayItems){
     printf("Barang yang ada di keranjang:\n");
     printf("Nama            Qty         total\n");
     int totalprice = 0;
     for (int i; i=0; i < UserCart.Count, i++){
-        int totalitem = UserCart.Elements[i].Key.price * UserCart.Elements[i].Value;
-        totalprice += totalitem;
-        printf("%s          %d          %d\n",UserCart.Elements[i].Key.name,UserCart.Elements[i].Value,totalitem);
+        int priceitem = Get(arrayItems,SearchArrayDin(arrayItems,UserCart.Elements[i].Key)).price;
+        totalprice += priceitem;
+        printf("%s          %d          %d\n",UserCart.Elements[i].Key,UserCart.Elements[i].Value,priceitem);
     }
     printf("Total harga keranjang anda: %d\n",totalprice);
 }
 
-void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx){
+void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx, ArrayDin arrayItems){
     int totalprice = 0;
     boolean PayStatus = false; // status pembayaran, (yes/no = true), else = false
-    SHOW(*UserCart);
+    SHOW(*UserCart,arrayItems);
     for (int i; i=0; i < UserCart->Count, i++){
-        int priceitem = UserCart->Elements[i].Key.price * UserCart->Elements[i].Value;
+        int priceitem = Get(arrayItems,SearchArrayDin(arrayItems,UserCart->Elements[i].Key)).price;
         totalprice += priceitem;
     }
     

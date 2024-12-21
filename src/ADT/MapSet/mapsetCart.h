@@ -1,5 +1,6 @@
 #include "../../boolean.h"
 #include "../Barang/barang.h"
+#include "../string/string.h"
 #ifndef mapsetCart_H
 #define mapsetCart_H
 
@@ -14,7 +15,7 @@ Deklarasi stack yang dengan implementasi array eksplisit-astatik rata kiri
 #define Undefined -999
 
 // typedef int bool;
-typedef Barang keytype; //nama barang
+typedef char keytype[50]; //nama barang
 typedef int valuetype; // qty barang
 typedef int map_address;
 

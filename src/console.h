@@ -37,9 +37,9 @@ void ADD (Map* UserCart, ArrayDin arrayItems);
 /* Menambah item ke keranjang dari item yang dijual di toko*/
 void REMOVE (Map* UserCart, ArrayDin arrayItems);
 /* Menghapus item dari keranjang sejumlah qty yang diinginkan*/
-void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx);
+void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx, ArrayDin arrayItems);
 /* Membayar semua barang yang ada di keranjang*/
-void SHOW (Map UserCart);
+void SHOW (Map UserCart, ArrayDin arrayItems);
 /* Memberikan tampilan pada user item yang ada di keranjang*/
 
 #endif

@@ -1,12 +1,14 @@
 #include<stdio.h>
 #include "mapsetCart.h"
+#include "mapsetCart.c"
+#include "../string/string.c"
 
 void main(){
-    Barang item;
+    char item;
+    char *pitem = &item;
     Map Cart;
     CreateEmptyMap(&Cart);
-    copyStringMap(item.name,"barang");
-    item.price = 12;
-    InsertMap(&Cart,item,5);
-    printf("name : %s \nprice: %d \nqty : %d ",Cart.Elements->Key.name,Cart.Elements->Key.price,Cart.Elements->Value);
+    salin_string(&item,"barang");
+    InsertMap(&Cart,&item,5);
+    printf("name : %s \nprice: 10 \nqty : %d ",Cart.Elements->Key,Cart.Elements->Value);
 }
