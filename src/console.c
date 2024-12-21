@@ -831,7 +831,6 @@ void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx){
         totalprice += priceitem;
     }
     
-    
     printf("apa anda ingin melakukan transaksi? (y/n)\n");
     START();
     if (currentChar == 'y'){
