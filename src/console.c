@@ -764,8 +764,7 @@ void HISTORY(TabInt *arrayUsers, int username_idx, Word M) {
 
 /*-------------------------Program Cart------------------------------*/
 
-void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, char CurrentKalimatWord){
-    STARTWORD();
+void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, char currentWord){
     while (!compareKalimatToString(currentWord,"Purry")){
         if (compareKalimatToString(currentWord,"ADD")){
             ADD(&currentUser.keranjang, arrayitems);
