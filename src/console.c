@@ -3,6 +3,7 @@
 #include <time.h>
 #include "console.h"
 
+
 static User currentUser;
 static boolean isLoggedIn = false;
 
@@ -220,4 +221,131 @@ void WORDL3() {
         count++;
     }
     printf("Maaf, Anda kalah. Jawaban yang benar adalah: %s\n", jawaban);
+}
+
+
+/*------------------------------ Help ------------------------------*/
+
+void help(boolean sessionStatus, boolean loginStatus){
+
+    if (sessionStatus && loginStatus){
+        // both true, print whole help command
+        printf(" LOGOUT -> Untuk keluar dari sesi\n");
+        printf(" PROFILE -> menunjukkan profile/data diri dari user\n");
+        printf(" WORK -> Untuk bekerja\n");
+        printf(" WORK CHALLENGE -> Untuk mengerjakan challenge\n");
+        printf(" STORE LIST -> Untuk melihat barang-barang di toko\n");
+        printf(" STORE REQUEST -> Untuk meminta penambahan barang\n");
+        printf(" STORE SUPPLY -> Untuk menambahkan barang dari permintaan\n");
+        printf(" STORE REMOVE -> Untuk menghapus barang\n");
+        printf(" CART ADD <item name> <qty> -> menambahkan item dari toko ke keranjang\n");
+        printf(" CART REMOVE <item name> <qty> -> menghapus item dengan kuantitas tertentu dari keranjang\n");
+        printf(" CART SHOW -> menunjukkan item yang ada di car beserta harga total per item dan harga total keranjang\n");
+        printf(" CART PAY -> membeli barang yang ada di keranjang\n");
+        printf(" HISTORY <jumlah> -> menunjukan riwayat pembelian sebanyak <jumlah> yang dimasukkan\n");
+        printf(" WISHLIST ADD -> menambah barang kepada list wishlish user\n");
+        printf(" WISHLIST SWAP <no urut 1> <no urut 2> -> menukar urutan wishlist no urut 1 dengan no urut 2\n");
+        printf(" WISHLIST REMOVE <no urut> -> menghapus wishlist dengan no urut yang diinginkan\n");
+        printf(" WISHLIST REMOVE -> menghapus wishlist menurut namanya\n");
+        printf(" WISHLIST CLEAR -> mengahpus item-item di wishlist\n");
+        printf(" SAVE -> Untuk menyimpan state ke dalam file\n");
+        printf(" QUIT -> Untuk keluar dari program\n");
+    }
+    else if(sessionStatus && !loginStatus){
+        // not logged in
+        printf(" START -> Untuk masuk sesi baru\n");
+        printf(" LOAD -> Untuk memulai sesi berdasarkan file konfigurasi\n");
+        printf(" REGISTER -> Untuk melakukan pendaftaran akun baru\n");
+        printf(" LOGIN -> Untuk masuk ke dalam akun dan memulai sesi\n");
+        printf(" QUIT -> Untuk keluar dari program\n");
+    }
+    
+}
+
+/*-------------------------Program Cart------------------------------*/
+
+cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, char CurrentKalimatWord){
+    STARTWORD();
+    while (!compareKalimatToString(CurrentKalimat,"Purry")){
+        if (compareKalimatToString(CurrentKalimat,"ADD")){
+            ADD(&currentUser.keranjang, arrayitems);
+        }
+        else if(compareKalimatToString(CurrentKalimat,"REMOVE")){
+           REMOVE(&currentUser.keranjang); 
+        }
+        else if(compareKalimatToString(CurrentKalimat,"SHOW")){
+           SHOW(*currentUser.keranjang); 
+        }
+        else if(compareKalimatToString(CurrentKalimat,"PAY")){
+           PAY(*currentUser.keranjang); 
+        }
+    }
+    
+}
+void ADD(Map* UserCart, ArrayDin arrayItems){
+    STARTWORD(); //baca nama barang
+    if (SearchArrayDin(arrayItems,*currentWord.TabWord)){
+        char Name;
+        salin_string(Name,currentWord.TabWord);
+        STARTWORD();
+        int qty = wordToInt(currentWord);
+        InsertMap(UserCart,Name,qty);
+        printf("Barang berhasil ditambah:%s %d",Name,qty);
+    }
+    else{printf("Barang tidak ada di toko");}
+}
+void REMOVE(Map* UserCart){
+    STARTWORD();
+    char Name;
+    salin_string(Name,currentWord.TabWord);
+    if(IsMemberMap(*UserCart,Name)){
+        STARTWORD();
+        int qty = wordToInt(currentWord);
+        if (qty > ValueMap(*UserCart,Name)){
+                UserCart->Elements->Value -= qty;
+                printf("Barang berhasil dikurangi, akhir: %s %d",Name,UserCart->Elements->Value);
+        }
+        else{printf("Input kuantitas berlebih");}
+    }
+    else{printf("Barang tidak ada di keranjang");}
+}
+void SHOW(Map UserCart){
+    printf("Barang yang ada di keranjang:\n");
+    printf("Nama            Qty         total\n");
+    int totalprice = 0;
+    for (int i; i=0; i < UserCart.Count, i++){
+        int totalitem = UserCart.Elements[i].Key->price * UserCart.Elements[i].Value;
+        totalprice += totalitem;
+        printf("%s          %d          %d",UserCart.Elements[i].Key->name,UserCart.Elements[i].Value,totalitem);
+    }
+    printf("Total harga keranjang anda: %d",totalprice);
+}
+
+void PAY (Map UserCart){
+    int totalprice = 0;
+    boolean PayStatus = false; // status pembayaran, (yes/no = true), else = false
+    SHOW(UserCart);
+    for (int i; i=0; i < UserCart.Count, i++){
+        int priceitem = UserCart.Elements[i].Key->price * UserCart.Elements[i].Value;
+        totalprice += priceitem;
+    }
+    
+    while(!PayStatus){
+        printf("apa anda ingin melakukan transaksi? (y/n)");
+        START();
+        if (currentChar == 'y'){
+            if (currentUser.money > totalprice){
+                currentUser.money -= totalprice;
+                printf("Transaksi berhasil sisa uang anda: %d",currentUser.money);
+                PayStatus = true;
+            }
+            else{printf("maaf uang anda tidak cukup");}
+            
+        }
+        else if(currentChar == 'n'){
+            printf("Kembali ke menu utama");
+            PayStatus = true;
+        }
+        else{printf("Input tidak valid");}
+    }
 }

@@ -45,5 +45,6 @@ void CopyKalimat();
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
 
 boolean compareKalimatToString(Kalimat word, char* string);
+/* Membangdingkan tipe Kalimat dengan char**/
 
 #endif

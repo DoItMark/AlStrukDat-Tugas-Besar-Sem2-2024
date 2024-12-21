@@ -17,4 +17,7 @@ boolean cari_karakter(const char *str, char c);
 
 void hapuskarakter(char str[], int offset);
 
+int stringtoint (const char *str, int length);
+/* konversi string menjadi int
+    mengembalikan nilai int*/
 #endif

@@ -1,8 +1,6 @@
 #include <stdio.h>
-#include "boolean.h"
 #include "ListofUser.h"
-#include "user.h"
-#include "string.h"
+
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor: create list kosong */
@@ -144,14 +142,14 @@ void DeleteAt(List *L, IdxType i) {
         for (int j = i; j < len - 1; j++) {
             (*L).A[j] = (*L).A[j + 1]; // Shift elements to the left
         }
-        salin_string((*L).A[len - 1], "---"); // Mark the last element as undefined
+        salin_string((*L).A[len - 1].name, "---"); // Mark the last element as undefined
     }
 }
 
 void DeleteLast(List *L) {
     int len = Length(*L);
     if (len > 0) {
-        salin_string((*L).A[len - 1] , "---"); // Remove the last element
+        salin_string((*L).A[len - 1].name , "---"); // Remove the last element
     }
 }
 

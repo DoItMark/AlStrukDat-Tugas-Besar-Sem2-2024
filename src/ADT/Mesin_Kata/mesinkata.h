@@ -144,5 +144,5 @@ boolean compareWordToString(Word word, char* string);
    Mengembalikan true jika keduanya sama, false jika keduanya berbeda */
 
 void readString(char* buffer, int bufferSize);
-
+/* Membaca kata*/
 #endif

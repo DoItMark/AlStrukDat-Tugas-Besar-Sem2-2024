@@ -49,3 +49,10 @@ void hapuskarakter(char str[], int offset) {
     }
     str[i] = '\0';
 }
+int stringtoint(const char *str,int length){
+    int number = 0;
+    for (int i = 0; i < length; i++) {
+        number = number * 10 + (str[i] - '0');
+    }
+    return number;
+}

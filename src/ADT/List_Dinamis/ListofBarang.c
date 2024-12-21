@@ -178,9 +178,9 @@ ArrayDin CopyArrayDin(ArrayDin array) {
  * Jika tidak ditemukan, akan mengembalikan -1.
  * Prekondisi: array terdefinisi
  */
-IdxType SearchArrayDin(ArrayDin array, Barang el) {
+IdxType SearchArrayDin(ArrayDin array, char *el) {
     for (int i = 0; i < array.Neff; i++) {
-        if (array.A[i].name == el.name) {
+        if (array.A[i].name == el) {
             return i;
         }
     }
