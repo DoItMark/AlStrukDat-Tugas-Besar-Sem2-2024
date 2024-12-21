@@ -30,7 +30,7 @@ void REGISTER(TabInt * arrayUsers);
 void PROFILE(TabInt *arrayUsers, int username_idx);
 void HISTORY(TabInt *arrayUsers, int username_idx, Word N);
 /*--------------- Cart Programs ---------------*/
-void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, char CurrentKalimatWord);
+void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, Word currentWord);
 /* menerima perintah panggilan cartfunction yang menerima input fungsi program
     : ADD REMOVE PAY SHOW */
 void ADD (Map* UserCart, ArrayDin arrayitems);

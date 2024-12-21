@@ -95,7 +95,7 @@ printf("========================================================================
             //     wishlist(&arrayUsers, username_idx, arrayItems, currentWord.TabWord);
             } else if (bandingkan_string(currentWord.TabWord, "CART")) {
                 STARTWORD();
-                cartfunction(&arrayUsers, username_idx, arrayItems, currentWord.TabWord);
+                cartfunction(&arrayUsers, username_idx, arrayItems, currentWord);
             } else if (bandingkan_string(currentWord.TabWord, "HISTORY")) {
                 STARTWORD();
                 HISTORY(&arrayUsers, username_idx, currentWord);
