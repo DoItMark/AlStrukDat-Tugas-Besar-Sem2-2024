@@ -9,11 +9,11 @@
 typedef struct {
   char name[MaxEl];
   int totalharga;
-} barang_dibeli;
+} pembelian;
 typedef int stack_address;
 
 typedef struct { 
-  barang_dibeli T[MaxEl]; 
+  pembelian T[MaxEl]; 
   stack_address TOP;
   int size;
 } Stack;
@@ -32,12 +32,12 @@ boolean IsEmptyStack(Stack S);
 boolean IsFullStack(Stack S);
 /* Mengirim true jika tabel penampung nilai elemen stack penuh */
 
-void PushStack(Stack * S, barang_dibeli X);
+void PushStack(Stack * S, pembelian X);
 /* Menambahkan X sebagai elemen Stack S. */
 /* I.S. S mungkin kosong, tabel penampung elemen stack TIDAK penuh */
 /* F.S. X menjadi TOP yang baru,TOP bertambah 1 */
 
-void PopStack(Stack * S, barang_dibeli* X);
+void PopStack(Stack * S, pembelian* X);
 /* Menghapus X dari Stack S. */
 /* I.S. S  tidak mungkin kosong */
 /* F.S. X adalah nilai elemen TOP yang lama, TOP berkurang 1 */

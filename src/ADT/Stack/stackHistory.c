@@ -13,7 +13,7 @@ boolean IsFullStack(Stack S){
     return Top(S)==MaxEl-1;
 }
 
-void PushStack(Stack * S, barang_dibeli X){
+void PushStack(Stack * S, pembelian X){
     if(IsEmptyStack(*S)){
         Top(*S)=0;
     }
@@ -24,7 +24,7 @@ void PushStack(Stack * S, barang_dibeli X){
     S->size++;
 }
 
-void PopStack(Stack * S, barang_dibeli* X){
+void PopStack(Stack * S, pembelian* X){
     *X = InfoTop(*S);
     if(Top(*S)==0){
         Top(*S) = Stack_Nil;

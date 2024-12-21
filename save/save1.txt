@@ -1,9 +1,9 @@
-3
+4
 500 Nuclear Strike Privilege
 30 Airsoft Gun
 20 NERF Gun
 10 Ketapel
-1
+2
 50 user user
 0
 0
