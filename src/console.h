@@ -33,11 +33,11 @@ void HISTORY(TabInt *arrayUsers, int username_idx, Word N);
 void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, Word currentWord);
 /* menerima perintah panggilan cartfunction yang menerima input fungsi program
     : ADD REMOVE PAY SHOW */
-void ADD (Map* UserCart, ArrayDin arrayitems);
+void ADD (Map* UserCart, ArrayDin arrayItems);
 /* Menambah item ke keranjang dari item yang dijual di toko*/
-void REMOVE (Map* UserCart);
+void REMOVE (Map* UserCart, ArrayDin arrayItems);
 /* Menghapus item dari keranjang sejumlah qty yang diinginkan*/
-void PAY (Map* UserCart);
+void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx);
 /* Membayar semua barang yang ada di keranjang*/
 void SHOW (Map UserCart);
 /* Memberikan tampilan pada user item yang ada di keranjang*/

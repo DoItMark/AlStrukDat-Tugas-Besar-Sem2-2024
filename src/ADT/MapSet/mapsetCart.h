@@ -14,7 +14,7 @@ Deklarasi stack yang dengan implementasi array eksplisit-astatik rata kiri
 #define Undefined -999
 
 // typedef int bool;
-typedef Barang keytype[MaxEl]; //nama barang
+typedef Barang keytype; //nama barang
 typedef int valuetype; // qty barang
 typedef int map_address;
 

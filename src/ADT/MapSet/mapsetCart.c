@@ -36,7 +36,7 @@ boolean IsFullMap(Map M){
 valuetype ValueMap(Map M, keytype k){
     if(IsMemberMap(M, k)){
         for(int i = 0; i<M.Count; i++){
-        if(compareStrings(M.Elements[i].Key->name, k->name) == 0){
+        if(compareStrings(M.Elements[i].Key.name, k.name) == 0){
             return M.Elements[i].Value;
             break;
         }
@@ -51,13 +51,15 @@ void InsertMap(Map *M, keytype k, valuetype v){
     if(!IsMemberMap(*M,k)){
         if(IsEmptyMap(*M)){
             M->Count = 1;
-            copyStringMap(M->Elements[0].Key->name, k->name);
+            copyStringMap(M->Elements[0].Key.name, k.name);
+            M->Elements[0].Key.price = k.price;
             M->Elements[0].Value = v;
         }
         else{
             int idx = M->Count;
             M->Count++;
-            copyStringMap(M->Elements[idx].Key->name, k->name);
+            copyStringMap(M->Elements[idx].Key.name, k.name);
+            M->Elements[idx].Key.price = k.price;
             M->Elements[idx].Value = v;
         }
     }
@@ -91,7 +93,7 @@ void DeleteMap(Map *M, keytype k, valuetype v){
 boolean IsMemberMap(Map M, keytype k){
     boolean ada = false;
     for(int i = 0; i<M.Count; i++){
-        if(compareStrings(M.Elements[i].Key->name, k->name)==0){
+        if(compareStrings(M.Elements[i].Key.name, k.name)==0){
             ada = true;
             break;
         }
@@ -102,7 +104,7 @@ boolean IsMemberMap(Map M, keytype k){
 int IdxMemberMap(Map M, keytype k){
     if(IsMemberMap(M, k)){
         for(int i = 0; i<M.Count; i++){
-            if(compareStrings(M.Elements[i].Key->name, k->name)==0){
+            if(compareStrings(M.Elements[i].Key.name, k.name)==0){
                 return i;
             }
         }

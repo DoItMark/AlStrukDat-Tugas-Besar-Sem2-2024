@@ -765,39 +765,44 @@ void HISTORY(TabInt *arrayUsers, int username_idx, Word M) {
 /*-------------------------Program Cart------------------------------*/
 
 void cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, Word currentWord){
-        if (compareKalimatToString(currentWord,"ADD")){
-            ADD(&currentUser.keranjang, arrayitems);
+        if (compareWordToString(currentWord,"ADD")){
+            ADD(arrayUsers->TI[username_idx].keranjang, arrayitems);
         }
-        else if(compareKalimatToString(currentWord,"REMOVE")){
-           REMOVE(&currentUser.keranjang); 
+        else if(compareWordToString(currentWord,"REMOVE")){
+           REMOVE(arrayUsers->TI[username_idx].keranjang, arrayitems); 
         }
-        else if(compareKalimatToString(currentWord,"SHOW")){
-           SHOW(*currentUser.keranjang); 
+        else if(compareWordToString(currentWord,"SHOW")){
+           SHOW(*arrayUsers->TI[username_idx].keranjang); 
         }
-        else if(compareKalimatToString(currentWord,"PAY")){
-           PAY(*currentUser.keranjang); 
+        else if(compareWordToString(currentWord,"PAY")){
+           PAY(arrayUsers->TI[username_idx].keranjang, arrayUsers, username_idx); 
         }
 }
 void ADD(Map* UserCart, ArrayDin arrayItems){
     STARTWORD(); //baca nama barang
-    if (SearchArrayDin(arrayItems,*currentWord.TabWord)){
-        char Name;
-        salin_string(Name,currentWord.TabWord);
+    char Name;
+    salin_string(&Name,currentWord.TabWord);
+    if (SearchArrayDin(arrayItems,&Name)){
         STARTWORD();
         int qty = wordToInt(currentWord);
-        InsertMap(UserCart,Name,qty);
+        Barang item;
+        item.price = Get(arrayItems,SearchArrayDin(arrayItems,&Name)).price;
+        salin_string(item.name, Get(arrayItems,SearchArrayDin(arrayItems,&Name)).name);
+
+        InsertMap(UserCart,item,qty);
         printf("Barang berhasil ditambah:%s %d",Name,qty);
     }
     else{printf("Barang tidak ada di toko");}
 }
-void REMOVE(Map* UserCart){
+void REMOVE(Map* UserCart, ArrayDin arrayItems){
     STARTWORD();
     char Name;
-    salin_string(Name,currentWord.TabWord);
-    if(IsMemberMap(*UserCart,Name)){
+    salin_string(&Name,currentWord.TabWord);
+    Barang item  = Get(arrayItems,SearchArrayDin(arrayItems,&Name));
+    if(IsMemberMap(*UserCart,item)){
         STARTWORD();
         int qty = wordToInt(currentWord);
-        if (qty > ValueMap(*UserCart,Name)){
+        if (qty > ValueMap(*UserCart,item)){
                 UserCart->Elements->Value -= qty;
                 printf("Barang berhasil dikurangi, akhir: %s %d",Name,UserCart->Elements->Value);
         }
@@ -810,38 +815,39 @@ void SHOW(Map UserCart){
     printf("Nama            Qty         total\n");
     int totalprice = 0;
     for (int i; i=0; i < UserCart.Count, i++){
-        int totalitem = UserCart.Elements[i].Key->price * UserCart.Elements[i].Value;
+        int totalitem = UserCart.Elements[i].Key.price * UserCart.Elements[i].Value;
         totalprice += totalitem;
-        printf("%s          %d          %d",UserCart.Elements[i].Key->name,UserCart.Elements[i].Value,totalitem);
+        printf("%s          %d          %d\n",UserCart.Elements[i].Key.name,UserCart.Elements[i].Value,totalitem);
     }
-    printf("Total harga keranjang anda: %d",totalprice);
+    printf("Total harga keranjang anda: %d\n",totalprice);
 }
 
-void PAY (Map UserCart){
+void PAY (Map* UserCart, TabInt *arrayUsers, int username_idx){
     int totalprice = 0;
     boolean PayStatus = false; // status pembayaran, (yes/no = true), else = false
-    SHOW(UserCart);
-    for (int i; i=0; i < UserCart.Count, i++){
-        int priceitem = UserCart.Elements[i].Key->price * UserCart.Elements[i].Value;
+    SHOW(*UserCart);
+    for (int i; i=0; i < UserCart->Count, i++){
+        int priceitem = UserCart->Elements[i].Key.price * UserCart->Elements[i].Value;
         totalprice += priceitem;
     }
     
-    while(!PayStatus){
-        printf("apa anda ingin melakukan transaksi? (y/n)");
-        START();
-        if (currentChar == 'y'){
-            if (currentUser.money > totalprice){
-                currentUser.money -= totalprice;
-                printf("Transaksi berhasil sisa uang anda: %d",currentUser.money);
-                PayStatus = true;
-            }
-            else{printf("maaf uang anda tidak cukup");}
-            
-        }
-        else if(currentChar == 'n'){
-            printf("Kembali ke menu utama");
+    
+    printf("apa anda ingin melakukan transaksi? (y/n)\n");
+    START();
+    if (currentChar == 'y'){
+        if (arrayUsers->TI[username_idx].money > totalprice){
+            arrayUsers->TI[username_idx].money -= totalprice;
+            printf("Transaksi berhasil sisa uang anda: %d\n",arrayUsers->TI[username_idx].money);
+            CreateEmptyMap(arrayUsers->TI[username_idx].keranjang);
             PayStatus = true;
         }
-        else{printf("Input tidak valid");}
+        else{printf("maaf uang anda tidak cukup\n");}
+        
     }
+    else if(currentChar == 'n'){
+        printf("Kembali ke menu utama\n");
+        PayStatus = true;
+    }
+    else{printf("Input tidak valid\n");}
+    
 }
