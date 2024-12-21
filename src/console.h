@@ -29,5 +29,17 @@ void TebakAngka(TabInt *arrayUsers, int username_idx);
 void REGISTER(TabInt * arrayUsers);
 void PROFILE(TabInt *arrayUsers, int username_idx);
 void HISTORY(TabInt *arrayUsers, int username_idx, Word N);
+/*--------------- Cart Programs ---------------*/
+cartfunction(TabInt *arrayUsers, int username_idx, ArrayDin arrayitems, char CurrentKalimatWord);
+/* menerima perintah panggilan cartfunction yang menerima input fungsi program
+    : ADD REMOVE PAY SHOW */
+void ADD (Map* UserCart, ArrayDin arrayitems);
+/* Menambah item ke keranjang dari item yang dijual di toko*/
+void REMOVE (Map* UserCart);
+/* Menghapus item dari keranjang sejumlah qty yang diinginkan*/
+void PAY (Map* UserCart);
+/* Membayar semua barang yang ada di keranjang*/
+void SHOW (Map UserCart);
+/* Memberikan tampilan pada user item yang ada di keranjang*/
 
 #endif
